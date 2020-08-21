@@ -1,11 +1,14 @@
-import React from "react";
-import LoginPage from "./pages/login";
+import React, { Fragment } from "react";
+import IndexGlobalProvider from "./Providers";
+import IndexRoutes from "./routes";
 
 function App() {
 	return (
-		<div className="App">
-			<LoginPage />
-		</div>
+		<Fragment>
+			<IndexGlobalProvider>
+				<IndexRoutes />
+			</IndexGlobalProvider>
+		</Fragment>
 	);
 }
 

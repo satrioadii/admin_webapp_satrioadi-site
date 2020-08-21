@@ -1,9 +1,12 @@
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import LoginContentContainer from "../../components/page/login/content-container";
 import LoginContainer from "../../components/page/login/login-container";
 
 const LoginPage = () => {
+	const history = useHistory();
+
 	const [data, setData] = useState({ email: "", password: "" });
 
 	const HandleChange = (e) => {
@@ -12,6 +15,7 @@ const LoginPage = () => {
 
 	const Submit = (e) => {
 		e.preventDefault();
+		history.push("/");
 	};
 
 	return (
