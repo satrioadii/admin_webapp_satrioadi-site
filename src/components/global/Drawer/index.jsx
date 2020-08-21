@@ -12,7 +12,7 @@ import clsx from "clsx";
 import React, { Fragment, useContext } from "react";
 import { AppbarContextState } from "../../../Providers/Appbar";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
 	drawer: {
