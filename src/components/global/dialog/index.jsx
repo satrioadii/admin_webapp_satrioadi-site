@@ -1,0 +1,68 @@
+import React, { Fragment } from "react";
+import {
+	Box,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	makeStyles,
+	Typography,
+} from "@material-ui/core";
+import { Close } from "@material-ui/icons";
+import { useContext } from "react";
+import {
+	DialogContextState,
+	DialogContextDispatch,
+} from "../../../Providers/Dialog";
+import { CloseDialogAction } from "../../../actions/dialog";
+
+const styles = makeStyles((theme) => {
+	return {
+		customShadow: {
+			boxShadow: "0px 0px 30px 0px rgba(210,210,210,0.8)",
+			border: `2px solid ${theme.palette.owngray1.main}`,
+		},
+	};
+});
+
+const GlobalDialog = ({ Content }) => {
+	const dispatch = useContext(DialogContextDispatch);
+	const { isOpen } = useContext(DialogContextState);
+	const classes = styles();
+	const onCloseDialog = () => {
+		CloseDialogAction(dispatch);
+	};
+	return (
+		<Fragment>
+			<Dialog
+				BackdropProps={{ style: { backgroundColor: "rgba(250,250,250,0.6)" } }}
+				PaperProps={{ className: classes.customShadow }}
+				open={isOpen}
+				onClose={() => onCloseDialog()}
+				scroll="body"
+				maxWidth="sm"
+			>
+				<DialogTitle>
+					<Box display="flex">
+						<Box flexGrow={1}>
+							{/* Title */}
+							<Typography variant="h6" component="h3" color="primary">
+								Judul Modal
+							</Typography>
+						</Box>{" "}
+						<Box>
+							<Close
+								style={{ cursor: "pointer", fontSize: "28px" }}
+								onClick={() => onCloseDialog()}
+							/>
+						</Box>
+					</Box>
+				</DialogTitle>
+				<DialogContent>{Content}</DialogContent>
+				<DialogActions></DialogActions>
+			</Dialog>
+		</Fragment>
+	);
+};
+
+export default GlobalDialog;

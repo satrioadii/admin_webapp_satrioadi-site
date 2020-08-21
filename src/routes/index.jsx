@@ -11,10 +11,11 @@ import {
 import { AuthContextState } from "../Providers/Auth/index";
 import HomeRoutes from "./home";
 import LoginRoutes from "./login";
-import GlobalAppBar from "../components/global/Appbar";
-import GlobalDrawer from "../components/global/Drawer";
+import GlobalAppBar from "../components/global/appbar";
+import GlobalDrawer from "../components/global/drawer";
 import { AppbarContextState, AppbarContextDispatch } from "../Providers/Appbar";
 import { CLOSE_APPBAR } from "../Providers/Appbar/index.type";
+import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -38,8 +39,12 @@ const useStyles = makeStyles((theme) => ({
 		}),
 	},
 	contentShrink: {
-		opacity: 0.1,
+		opacity: 0,
 		padding: theme.spacing(2, 0),
+		[theme.breakpoints.up("sm")]: {
+			opacity: 0.2,
+			padding: theme.spacing(2),
+		},
 		transition: theme.transitions.create(["opacity", "padding"], {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
@@ -90,16 +95,17 @@ const IndexRoutes = () => {
 					onClick={isOpen ? () => dispatch({ type: CLOSE_APPBAR }) : null}
 				>
 					<div className={classes.toolbar} />
-
-					<Router>
-						<Switch>
-							<HomeRoutes exact path="/" />
-							<LoginRoutes path="/dummylogin" />
-							<Route path="*">
-								<Redirect to="/" />
-							</Route>
-						</Switch>
-					</Router>
+					<Container maxWidth="lg">
+						<Router>
+							<Switch>
+								<HomeRoutes exact path="/" />
+								<LoginRoutes path="/dummylogin" />
+								<Route path="*">
+									<Redirect to="/" />
+								</Route>
+							</Switch>
+						</Router>
+					</Container>
 				</main>
 			</div>
 		</Fragment>
