@@ -2,15 +2,18 @@ import React, { Fragment } from "react";
 import AuthContextProvider from "./Auth";
 import AppbarContextProvider from "./Appbar";
 import DialogContextProvider from "./Dialog";
+import SnackbarContextProvider from "./Snackbar";
 
 const IndexGlobalProvider = ({ children }) => {
 	return (
 		<Fragment>
-			<AppbarContextProvider>
-				<DialogContextProvider>
-					<AuthContextProvider>{children}</AuthContextProvider>
-				</DialogContextProvider>
-			</AppbarContextProvider>
+			<SnackbarContextProvider>
+				<AppbarContextProvider>
+					<DialogContextProvider>
+						<AuthContextProvider>{children}</AuthContextProvider>
+					</DialogContextProvider>
+				</AppbarContextProvider>
+			</SnackbarContextProvider>
 		</Fragment>
 	);
 };

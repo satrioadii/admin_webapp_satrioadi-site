@@ -1,12 +1,16 @@
-import React, { Fragment } from "react";
-import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
+import MuiAlert from "@material-ui/lab/Alert";
+import React, { useContext } from "react";
+import {
+	SnackbarContextDispatch,
+	SnackbarContextState,
+} from "../../../Providers/Snackbar";
+import { CLOSE_SNACKBAR } from "../../../Providers/Snackbar/index.type";
 
-function Alert(props) {
+const Alert = (props) => {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+};
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,33 +23,31 @@ const useStyles = makeStyles((theme) => ({
 
 const GlobalSnackbar = () => {
 	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
 
-	const handleClick = () => {
-		setOpen(true);
-	};
+	const dispatch = useContext(SnackbarContextDispatch);
+	const state = useContext(SnackbarContextState);
+
+	console.log(state);
 
 	const handleClose = (event, reason) => {
 		if (reason === "clickaway") {
 			return;
 		}
-		setOpen(false);
+		dispatch({ type: CLOSE_SNACKBAR });
 	};
 
 	return (
 		<div className={classes.root}>
-			<Button variant="outlined" onClick={handleClick}>
-				Open success snackbar
-			</Button>
-			<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-				<Alert onClose={handleClose} severity="success">
-					This is a success message!
+			<Snackbar
+				open={state.isOpen}
+				anchorOrigin={{ vertical: "top", horizontal: "right" }}
+				autoHideDuration={2000}
+				onClose={handleClose}
+			>
+				<Alert onClose={handleClose} severity={state.type}>
+					{state.message}
 				</Alert>
 			</Snackbar>
-			<Alert severity="error">This is an error message!</Alert>
-			<Alert severity="warning">This is a warning message!</Alert>
-			<Alert severity="info">This is an information message!</Alert>
-			<Alert severity="success">This is a success message!</Alert>
 		</div>
 	);
 };

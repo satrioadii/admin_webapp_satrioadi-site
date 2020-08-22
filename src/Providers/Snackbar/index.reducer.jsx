@@ -1,14 +1,22 @@
-import { OPEN_APPBAR, CLOSE_APPBAR } from "./index.type";
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from "./index.type";
 
-const AppbarReducer = (state, action) => {
+const SnackbarReducer = (state, action) => {
 	switch (action.type) {
-		case OPEN_APPBAR:
-			return { ...state, isOpen: true };
-		case CLOSE_APPBAR:
+		case OPEN_SNACKBAR:
+			console.log("OPEN SNACKBAR");
+			console.log(action);
+			return {
+				isOpen: true,
+				message: action.message,
+				type: action.snacktype,
+			};
+		case CLOSE_SNACKBAR:
+			console.log("CLOSE");
 			return { ...state, isOpen: false };
 		default:
+			console.log("DEAULT");
 			return state;
 	}
 };
 
-export default AppbarReducer;
+export default SnackbarReducer;

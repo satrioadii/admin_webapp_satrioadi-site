@@ -1,2 +1,2 @@
-export const OPEN_APPBAR = "OPEN_APPBAR";
-export const CLOSE_APPBAR = "CLOSE_APPBAR";
+export const OPEN_SNACKBAR = "OPEN_SNACKBAR";
+export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";

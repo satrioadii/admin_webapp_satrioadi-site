@@ -16,6 +16,7 @@ import GlobalDrawer from "../components/global/drawer";
 import { AppbarContextState, AppbarContextDispatch } from "../Providers/Appbar";
 import { CLOSE_APPBAR } from "../Providers/Appbar/index.type";
 import { Container } from "@material-ui/core";
+import GlobalSnackbar from "../components/global/snackbar";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -69,6 +70,8 @@ const IndexRoutes = () => {
 	if (!state.token) {
 		return (
 			<Fragment>
+				<GlobalSnackbar />
+
 				<Router>
 					<Switch>
 						<LoginRoutes path="/login" />
@@ -95,6 +98,7 @@ const IndexRoutes = () => {
 					})}
 					onClick={isOpen ? () => dispatchAppbar({ type: CLOSE_APPBAR }) : null}
 				>
+					<GlobalSnackbar />
 					<div className={classes.toolbar} />
 					<Container maxWidth="lg">
 						<Router>
