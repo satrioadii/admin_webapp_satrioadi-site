@@ -3,6 +3,9 @@ import {
 	FETCH_LANDING_DATA_REQUEST,
 	FETCH_LANDING_DATA_SUCCESS,
 	FETCH_LANDING_DATA_ERROR,
+	FETCH_LANDING_DATA_DETAIL_REQUEST,
+	FETCH_LANDING_DATA_DETAIL_SUCCESS,
+	FETCH_LANDING_DATA_DETAIL_ERROR,
 } from "../../Providers/Landingpage/index.type";
 import { OPEN_SNACKBAR } from "../../Providers/Snackbar/index.type";
 
@@ -34,6 +37,33 @@ export const FetchAllProject = async (dispatch) => {
 		dispatch.snackbar({
 			type: OPEN_SNACKBAR,
 			message: "Fetch All Project Error",
+			snacktype: "error",
+		});
+	}
+};
+
+export const FetchDetailProject = async (dispatch, id) => {
+	dispatch.landingPage({ type: FETCH_LANDING_DATA_DETAIL_REQUEST });
+
+	try {
+		const response = await axios({
+			method: "get",
+			url: `${BASE_URL}/${id}`,
+			headers: {
+				"Content-Type": "application/json",
+				authorization: TOKEN,
+			},
+		});
+		dispatch.landingPage({
+			type: FETCH_LANDING_DATA_DETAIL_SUCCESS,
+			payload: response.data,
+		});
+	} catch (error) {
+		console.log(error.response);
+		dispatch.landingPage({ type: FETCH_LANDING_DATA_DETAIL_ERROR });
+		dispatch.snackbar({
+			type: OPEN_SNACKBAR,
+			message: "Fetch Project Detail Error",
 			snacktype: "error",
 		});
 	}

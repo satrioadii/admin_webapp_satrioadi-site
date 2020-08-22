@@ -4,7 +4,7 @@ import LandingPageReducer from "./index.reducer";
 const INITIAL_STATE = {
 	isLoading: false,
 	data: [],
-	dataDetail: {},
+	dataDetail: { category: null, tools: [], links: [] },
 	pagination: {},
 	count: 0,
 };

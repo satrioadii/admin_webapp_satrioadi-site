@@ -13,6 +13,7 @@ import {
 import { SnackbarContextDispatch } from "../../Providers/Snackbar";
 import { FetchAllProject } from "../../actions/landingpage/index";
 import GlobalDataCounter from "../../components/global/datacounter";
+import ProjectDialogContent from "../../components/page/landingpage/project-dialog-content";
 
 const LandingPage = () => {
 	const dispatch = {
@@ -24,7 +25,7 @@ const LandingPage = () => {
 
 	useEffect(() => {
 		FetchAllProject(dispatch);
-	}, [null]);
+	}, []);
 
 	console.log(data);
 
@@ -53,13 +54,21 @@ const LandingPage = () => {
 										Title={data.name}
 										Subtitle={data.description}
 										ProjectImage={data.image}
-										id={data._id}
+										Id={data._id}
 									/>
 								);
 						  })
 						: null}
 
-					<GlobalDialog Content={<EmptyProjectDialogContent />} />
+					<GlobalDialog
+						Content={
+							isLoading ? (
+								<EmptyProjectDialogContent />
+							) : (
+								<ProjectDialogContent />
+							)
+						}
+					/>
 				</Grid>
 			</Box>
 			<Box

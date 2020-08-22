@@ -1,7 +1,124 @@
-import React from "react";
+import React, { Fragment, useContext } from "react";
+import { Box, Grid, Typography, Chip } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
+import { ChipsContainer, CustomChip } from "../../../global/chips";
+import { LandingPageContextState } from "../../../../Providers/Landingpage";
 
 const ProjectDialogContent = () => {
-	return <div></div>;
+	const state = { landingPage: useContext(LandingPageContextState) };
+	const { isLoading, dataDetail } = state.landingPage;
+	console.log("Ini data detail");
+	console.log(dataDetail);
+
+	return (
+		<Fragment>
+			{isLoading ? null : (
+				<div
+					style={{
+						width: "100%",
+						paddingTop: "75%",
+						backgroundColor: " #C3C8D8",
+						backgroundImage: `url("${
+							dataDetail ? dataDetail.modalImage : null
+						}")`,
+						borderRadius: "4px",
+						marginBottom: "16px",
+						backgroundSize: "cover",
+						backgroundPosition: "center",
+					}}
+				></div>
+			)}
+
+			<Box paddingX="8px">
+				{/* Category */}
+				<Box marginBottom="16px">
+					{isLoading ? null : (
+						<Chip
+							label={dataDetail.category}
+							variant="outlined"
+							color="primary"
+						/>
+					)}
+				</Box>
+				{/* Description */}
+				<Box marginBottom="16px">
+					<Typography component="p">
+						{isLoading ? null : dataDetail.description}
+					</Typography>
+				</Box>
+				<Grid container spacing={3}>
+					{/* Project FOR */}
+					<Grid item xs={12} md={4}>
+						<Box textAlign="left">
+							<Typography variant="h6" style={{ fontWeight: "400" }}>
+								Project For
+							</Typography>
+							{/* Project Image */}
+							{isLoading ? null : (
+								<div
+									style={{
+										width: "100%",
+										marginTop: "8px",
+										paddingBottom: "75%",
+										backgroundImage: `url("${
+											dataDetail ? dataDetail.organizationImage : null
+										}")`,
+										backgroundSize: "cover",
+										backgroundRepeat: "none",
+										backgroundPosition: "center",
+										borderRadius: "8px",
+									}}
+								/>
+							)}
+						</Box>
+					</Grid>
+					{/* Tools */}
+					{dataDetail.tools ? (
+						<Grid item xs={12} md={8}>
+							<Box textAlign="Left">
+								<Box marginBottom="8px">
+									<Typography variant="h6" style={{ fontWeight: "400" }}>
+										Tools
+									</Typography>
+								</Box>
+								<ChipsContainer>
+									{isLoading
+										? null
+										: dataDetail.tools.map((dataTool, index) => {
+												return (
+													<CustomChip
+														key={`projectTool-${index}`}
+														{...dataTool}
+													/>
+												);
+										  })}
+								</ChipsContainer>
+							</Box>
+						</Grid>
+					) : null}
+				</Grid>
+				{/* Links */}
+				{dataDetail.links ? (
+					<div>
+						<Box marginTop="16px" marginBottom="8px">
+							<Typography variant="h6" style={{ fontWeight: "400" }}>
+								Links
+							</Typography>
+						</Box>
+						<ChipsContainer>
+							{isLoading
+								? null
+								: dataDetail.links.map((dataLink, index) => {
+										return (
+											<CustomChip key={`projectLink-${index}`} {...dataLink} />
+										);
+								  })}
+						</ChipsContainer>
+					</div>
+				) : null}
+			</Box>
+		</Fragment>
+	);
 };
 
 export default ProjectDialogContent;

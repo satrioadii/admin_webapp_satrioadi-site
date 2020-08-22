@@ -3,6 +3,9 @@ import { makeStyles, Grid, Typography, Box } from "@material-ui/core";
 import { OpenDialogAction } from "../../../../actions/dialog";
 import { useContext } from "react";
 import { DialogContextDispatch } from "../../../../Providers/Dialog";
+import { FetchDetailProject } from "../../../../actions/landingpage";
+import { SnackbarContextDispatch } from "../../../../Providers/Snackbar";
+import { LandingPageContextDispatch } from "../../../../Providers/Landingpage";
 
 const styles = makeStyles((theme) => {
 	return {
@@ -19,10 +22,16 @@ const styles = makeStyles((theme) => {
 });
 
 const HomeContentCard = ({ Title, Subtitle, ProjectImage, Id }) => {
-	const dispatch = { dialog: useContext(DialogContextDispatch) };
+	const dispatch = {
+		dialog: useContext(DialogContextDispatch),
+		snackbar: useContext(SnackbarContextDispatch),
+		landingPage: useContext(LandingPageContextDispatch),
+	};
 	const classes = styles();
 	const onOpenDialogHandler = () => {
+		console.log(Id);
 		OpenDialogAction(dispatch, Title, Id);
+		FetchDetailProject(dispatch, Id);
 	};
 
 	return (
