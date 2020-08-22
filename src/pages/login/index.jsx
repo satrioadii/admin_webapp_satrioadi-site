@@ -1,11 +1,21 @@
-import { Box, Button, TextField, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import {
+	Box,
+	Button,
+	TextField,
+	Typography,
+	CircularProgress,
+} from "@material-ui/core";
+import React, { useState, useContext, Fragment } from "react";
 import { useHistory } from "react-router-dom";
 import LoginContentContainer from "../../components/page/login/content-container";
 import LoginContainer from "../../components/page/login/login-container";
+import { LoginAction } from "../../actions/auth";
+import { AuthContextDispatch, AuthContextState } from "../../Providers/Auth";
 
 const LoginPage = () => {
 	const history = useHistory();
+	const dispatch = useContext(AuthContextDispatch);
+	const { isLoading } = useContext(AuthContextState);
 
 	const [data, setData] = useState({ email: "", password: "" });
 
@@ -15,7 +25,8 @@ const LoginPage = () => {
 
 	const Submit = (e) => {
 		e.preventDefault();
-		history.push("/");
+		console.log(data);
+		LoginAction(dispatch, data);
 	};
 
 	return (
@@ -39,7 +50,11 @@ const LoginPage = () => {
 					</Typography>
 				</Box>
 				<Typography style={{ marginBottom: "16px" }}>Login</Typography>
-				<form onSubmit={Submit} noValidate autoComplete="off">
+				<form
+					onSubmit={isLoading ? null : Submit}
+					noValidate
+					autoComplete="off"
+				>
 					<TextField
 						id="emailField"
 						name="email"
@@ -70,9 +85,23 @@ const LoginPage = () => {
 						color="primary"
 						disableElevation
 						fullWidth
-						onClick={Submit}
+						onClick={isLoading ? null : Submit}
 					>
-						Login
+						{isLoading ? (
+							<Fragment>
+								Login
+								<CircularProgress
+									color="white"
+									thickness={8}
+									size={20}
+									disableShrink
+									disableElevation
+									style={{ marginLeft: "8px" }}
+								/>
+							</Fragment>
+						) : (
+							"Login"
+						)}
 					</Button>
 				</form>
 			</LoginContentContainer>

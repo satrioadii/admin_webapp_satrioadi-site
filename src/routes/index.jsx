@@ -8,8 +8,8 @@ import {
 	Route,
 	Switch,
 } from "react-router-dom";
-import { AuthContextState } from "../Providers/Auth/index";
-import HomeRoutes from "./home";
+import { AuthContextState, AuthContextDispatch } from "../Providers/Auth/index";
+import LandingPageRoutes from "./landingpage";
 import LoginRoutes from "./login";
 import GlobalAppBar from "../components/global/appbar";
 import GlobalDrawer from "../components/global/drawer";
@@ -61,10 +61,11 @@ const useStyles = makeStyles((theme) => ({
 const IndexRoutes = () => {
 	const classes = useStyles();
 	const state = useContext(AuthContextState);
+	const dispatchAuth = useContext(AuthContextDispatch);
 	const { isOpen } = useContext(AppbarContextState);
-	const dispatch = useContext(AppbarContextDispatch);
+	const dispatchAppbar = useContext(AppbarContextDispatch);
 
-	// If token is not exist
+	// If token is not exist, force to login route
 	if (!state.token) {
 		return (
 			<Fragment>
@@ -92,14 +93,13 @@ const IndexRoutes = () => {
 						[classes.contentShrink]: isOpen,
 						[classes.contentGrow]: !isOpen,
 					})}
-					onClick={isOpen ? () => dispatch({ type: CLOSE_APPBAR }) : null}
+					onClick={isOpen ? () => dispatchAppbar({ type: CLOSE_APPBAR }) : null}
 				>
 					<div className={classes.toolbar} />
 					<Container maxWidth="lg">
 						<Router>
 							<Switch>
-								<HomeRoutes exact path="/" />
-								<LoginRoutes path="/dummylogin" />
+								<LandingPageRoutes exact path="/" />
 								<Route path="*">
 									<Redirect to="/" />
 								</Route>

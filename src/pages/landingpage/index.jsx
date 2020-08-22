@@ -1,12 +1,12 @@
 import Typography from "@material-ui/core/Typography";
 import React, { Fragment } from "react";
 import { Box, Grid } from "@material-ui/core";
-import HomeContentCard from "../../components/page/home/content-card";
-import HomeContentCardEmpty from "../../components/page/home/content-card/empty-index";
+import HomeContentCard from "../../components/page/landingpage/content-card";
+import HomeContentCardEmpty from "../../components/page/landingpage/content-card/empty-index";
 import GlobalDialog from "../../components/global/dialog";
-import EmptyProjectDialogContent from "../../components/page/home/project-dialog-content/empty-index";
+import EmptyProjectDialogContent from "../../components/page/landingpage/project-dialog-content/empty-index";
 
-const HomePage = () => {
+const LandingPage = () => {
 	return (
 		<Fragment>
 			<Box marginBottom={{ xs: 3, sm: 4 }}>
@@ -31,4 +31,4 @@ const HomePage = () => {
 	);
 };
 
-export default HomePage;
+export default LandingPage;
