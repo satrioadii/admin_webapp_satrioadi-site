@@ -1,10 +1,12 @@
-import React, { createContext, useReducer } from "./node_modules/react";
+import React, { createContext, useReducer } from "react";
 import LandingPageReducer from "./index.reducer";
 
 const INITIAL_STATE = {
 	isLoading: false,
 	data: [],
 	dataDetail: {},
+	pagination: {},
+	count: 0,
 };
 
 export const LandingPageContextState = createContext();

@@ -1,22 +1,21 @@
-import React, { Fragment, useContext } from "react";
+import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-
+import React, { Fragment, useContext } from "react";
 import {
 	BrowserRouter as Router,
 	Redirect,
 	Route,
 	Switch,
 } from "react-router-dom";
-import { AuthContextState, AuthContextDispatch } from "../Providers/Auth/index";
-import LandingPageRoutes from "./landingpage";
-import LoginRoutes from "./login";
 import GlobalAppBar from "../components/global/appbar";
 import GlobalDrawer from "../components/global/drawer";
-import { AppbarContextState, AppbarContextDispatch } from "../Providers/Appbar";
-import { CLOSE_APPBAR } from "../Providers/Appbar/index.type";
-import { Container } from "@material-ui/core";
 import GlobalSnackbar from "../components/global/snackbar";
+import { AppbarContextDispatch, AppbarContextState } from "../Providers/Appbar";
+import { CLOSE_APPBAR } from "../Providers/Appbar/index.type";
+import { AuthContextState } from "../Providers/Auth/index";
+import LandingPageRoutes from "./landingpage";
+import LoginRoutes from "./login";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -61,17 +60,18 @@ const useStyles = makeStyles((theme) => ({
 
 const IndexRoutes = () => {
 	const classes = useStyles();
-	const state = useContext(AuthContextState);
-	const dispatchAuth = useContext(AuthContextDispatch);
-	const { isOpen } = useContext(AppbarContextState);
-	const dispatchAppbar = useContext(AppbarContextDispatch);
+	const dispatch = { appbar: useContext(AppbarContextDispatch) };
+	const state = {
+		auth: useContext(AuthContextState),
+		appbar: useContext(AppbarContextState),
+	};
+	const { isOpen } = state.appbar;
 
 	// If token is not exist, force to login route
-	if (!state.token) {
+	if (!state.auth.token) {
 		return (
 			<Fragment>
 				<GlobalSnackbar />
-
 				<Router>
 					<Switch>
 						<LoginRoutes path="/login" />
@@ -96,7 +96,9 @@ const IndexRoutes = () => {
 						[classes.contentShrink]: isOpen,
 						[classes.contentGrow]: !isOpen,
 					})}
-					onClick={isOpen ? () => dispatchAppbar({ type: CLOSE_APPBAR }) : null}
+					onClick={
+						isOpen ? () => dispatch.appbar({ type: CLOSE_APPBAR }) : null
+					}
 				>
 					<GlobalSnackbar />
 					<div className={classes.toolbar} />

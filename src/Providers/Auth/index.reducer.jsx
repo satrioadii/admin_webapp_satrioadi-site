@@ -5,6 +5,7 @@ import {
 	CHECK_AUTH_REQUEST,
 	CHECK_AUTH_SUCCESS,
 	CHECK_AUTH_ERROR,
+	LOGOUT_REQUEST,
 } from "./index.type";
 
 const AuthReducer = (state, action) => {
@@ -27,6 +28,9 @@ const AuthReducer = (state, action) => {
 			return { ...state, isLoading: false, user: action.payload.role };
 		case CHECK_AUTH_ERROR:
 			return { ...state, isLoading: false };
+		case LOGOUT_REQUEST:
+			localStorage.removeItem("satrio_admin_token");
+			return { ...state, isLoading: false, token: null };
 		default:
 			return state;
 	}

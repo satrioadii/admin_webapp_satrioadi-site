@@ -18,11 +18,11 @@ const styles = makeStyles((theme) => {
 	};
 });
 
-const HomeContentCard = ({ Title, Subtitle, ProjectImage }) => {
-	const dispatch = useContext(DialogContextDispatch);
+const HomeContentCard = ({ Title, Subtitle, ProjectImage, Id }) => {
+	const dispatch = { dialog: useContext(DialogContextDispatch) };
 	const classes = styles();
 	const onOpenDialogHandler = () => {
-		OpenDialogAction(dispatch);
+		OpenDialogAction(dispatch, Title, Id);
 	};
 
 	return (

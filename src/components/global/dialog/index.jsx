@@ -26,12 +26,14 @@ const styles = makeStyles((theme) => {
 });
 
 const GlobalDialog = ({ Content }) => {
-	const dispatch = useContext(DialogContextDispatch);
-	const { isOpen } = useContext(DialogContextState);
+	const dispatch = { dialog: useContext(DialogContextDispatch) };
+	const state = { dialog: useContext(DialogContextState) };
+	const { isOpen, title } = state.dialog;
 	const classes = styles();
 	const onCloseDialog = () => {
 		CloseDialogAction(dispatch);
 	};
+
 	return (
 		<Fragment>
 			<Dialog
@@ -47,7 +49,7 @@ const GlobalDialog = ({ Content }) => {
 						<Box flexGrow={1}>
 							{/* Title */}
 							<Typography variant="h6" component="h3" color="primary">
-								Judul Modal
+								{title}
 							</Typography>
 						</Box>{" "}
 						<Box>

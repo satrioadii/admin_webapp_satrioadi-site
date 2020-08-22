@@ -27,8 +27,6 @@ const GlobalSnackbar = () => {
 	const dispatch = useContext(SnackbarContextDispatch);
 	const state = useContext(SnackbarContextState);
 
-	console.log(state);
-
 	const handleClose = (event, reason) => {
 		if (reason === "clickaway") {
 			return;
@@ -41,7 +39,7 @@ const GlobalSnackbar = () => {
 			<Snackbar
 				open={state.isOpen}
 				anchorOrigin={{ vertical: "top", horizontal: "right" }}
-				autoHideDuration={2000}
+				autoHideDuration={3000}
 				onClose={handleClose}
 			>
 				<Alert onClose={handleClose} severity={state.type}>

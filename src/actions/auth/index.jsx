@@ -3,15 +3,16 @@ import {
 	LOGIN_REQUEST,
 	LOGIN_ERROR,
 	LOGIN_SUCCESS,
+	LOGOUT_REQUEST,
 } from "../../Providers/Auth/index.type";
 import { OPEN_SNACKBAR } from "../../Providers/Snackbar/index.type";
 
 const BASE_URL = `${process.env.REACT_APP_HOST_API}/${process.env.REACT_APP_VERSION_1_API}/auth`;
 
-export const LoginAction = async (dispatch, snackdispatch, body) => {
-	dispatch({ type: LOGIN_REQUEST });
+export const LoginAction = async (dispatch, body) => {
+	dispatch.auth({ type: LOGIN_REQUEST });
 	try {
-		const data = await axios({
+		const response = await axios({
 			method: "post",
 			url: `${BASE_URL}/login`,
 			headers: {
@@ -19,21 +20,26 @@ export const LoginAction = async (dispatch, snackdispatch, body) => {
 			},
 			data: body,
 		});
-		console.log(data);
-		dispatch({ type: LOGIN_SUCCESS, payload: { token: null } });
-		snackdispatch({
+		dispatch.auth({
+			type: LOGIN_SUCCESS,
+			payload: { token: response.data.token },
+		});
+		dispatch.snackbar({
 			type: OPEN_SNACKBAR,
-			message: "Login Succeed",
+			message: "Login Success",
 			snacktype: "success",
 		});
 	} catch (error) {
 		console.log("error", error.response.data);
-		dispatch({ type: LOGIN_ERROR });
-		snackdispatch({
+		dispatch.auth({ type: LOGIN_ERROR });
+		dispatch.snackbar({
 			type: OPEN_SNACKBAR,
-			message: `Login failed: ${error.response.data.error}`,
+			message: `Login failed: ${JSON.stringify(error.response.data)}`,
 			snacktype: "error",
 		});
-		console.log("HEY");
 	}
+};
+
+export const LogoutAction = async (dispatch) => {
+	dispatch({ type: LOGOUT_REQUEST });
 };

@@ -11,6 +11,8 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import clsx from "clsx";
 import React, { Fragment, useContext } from "react";
 import { AppbarContextState } from "../../../Providers/Appbar";
+import { AuthContextDispatch } from "../../../Providers/Auth";
+import { LogoutAction } from "../../../actions/auth";
 
 const drawerWidth = 200;
 
@@ -54,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
 
 const GlobalDrawer = () => {
 	const classes = useStyles();
+	const dispatch = {
+		auth: useContext(AuthContextDispatch),
+	};
 	const { isOpen } = useContext(AppbarContextState);
 	return (
 		<Fragment>
@@ -84,7 +89,7 @@ const GlobalDrawer = () => {
 				</List>
 				<Divider />
 				<List>
-					<ListItem button>
+					<ListItem button onClick={() => LogoutAction(dispatch.auth)}>
 						<ListItemIcon>
 							<ExitToApp />
 						</ListItemIcon>

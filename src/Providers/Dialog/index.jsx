@@ -3,6 +3,7 @@ import DialogReducer from "./index.reducer";
 
 const INITIAL_STATE = {
 	isOpen: false,
+	title: "Title",
 };
 
 export const DialogContextState = createContext();

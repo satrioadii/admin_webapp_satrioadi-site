@@ -6,7 +6,6 @@ import {
 	CircularProgress,
 } from "@material-ui/core";
 import React, { useState, useContext, Fragment } from "react";
-import { useHistory } from "react-router-dom";
 import LoginContentContainer from "../../components/page/login/content-container";
 import LoginContainer from "../../components/page/login/login-container";
 import { LoginAction } from "../../actions/auth";
@@ -14,9 +13,10 @@ import { AuthContextDispatch, AuthContextState } from "../../Providers/Auth";
 import { SnackbarContextDispatch } from "../../Providers/Snackbar";
 
 const LoginPage = () => {
-	const history = useHistory();
-	const dispatch = useContext(AuthContextDispatch);
-	const snackbarDispatch = useContext(SnackbarContextDispatch);
+	const dispatch = {
+		auth: useContext(AuthContextDispatch),
+		snackbar: useContext(SnackbarContextDispatch),
+	};
 	const { isLoading } = useContext(AuthContextState);
 
 	const [data, setData] = useState({ email: "", password: "" });
@@ -27,8 +27,7 @@ const LoginPage = () => {
 
 	const Submit = (e) => {
 		e.preventDefault();
-		console.log(data);
-		LoginAction(dispatch, snackbarDispatch, data);
+		LoginAction(dispatch, data);
 	};
 
 	return (
@@ -52,11 +51,7 @@ const LoginPage = () => {
 					</Typography>
 				</Box>
 				<Typography style={{ marginBottom: "16px" }}>Login</Typography>
-				<form
-					onSubmit={isLoading ? null : Submit}
-					noValidate
-					autoComplete="off"
-				>
+				<form onSubmit={isLoading ? null : Submit} noValidate>
 					<TextField
 						id="emailField"
 						name="email"
@@ -93,12 +88,10 @@ const LoginPage = () => {
 							<Fragment>
 								Login
 								<CircularProgress
-									color="white"
 									thickness={8}
 									size={20}
 									disableShrink
-									disableElevation
-									style={{ marginLeft: "8px" }}
+									style={{ marginLeft: "8px", color: "white" }}
 								/>
 							</Fragment>
 						) : (
