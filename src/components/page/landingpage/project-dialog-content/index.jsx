@@ -3,10 +3,15 @@ import { Box, Grid, Typography, Chip } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { ChipsContainer, CustomChip } from "../../../global/chips";
 import { LandingPageContextState } from "../../../../Providers/Landingpage";
+import EmptyProjectDialogContent from "./empty-index";
 
 const ProjectDialogContent = () => {
 	const state = { landingPage: useContext(LandingPageContextState) };
 	const { isLoading, dataDetail } = state.landingPage;
+
+	if (isLoading) {
+		return <EmptyProjectDialogContent />;
+	}
 
 	return (
 		<Fragment>

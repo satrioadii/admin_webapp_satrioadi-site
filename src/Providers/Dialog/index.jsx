@@ -1,9 +1,10 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, Fragment } from "react";
 import DialogReducer from "./index.reducer";
 
 const INITIAL_STATE = {
 	isOpen: false,
 	title: "Title",
+	DialogComponent: () => <Fragment></Fragment>,
 };
 
 export const DialogContextState = createContext();

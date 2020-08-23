@@ -6,6 +6,7 @@ import { DialogContextDispatch } from "../../../../Providers/Dialog";
 import { FetchDetailProject } from "../../../../actions/landingpage";
 import { SnackbarContextDispatch } from "../../../../Providers/Snackbar";
 import { LandingPageContextDispatch } from "../../../../Providers/Landingpage";
+import ProjectDialogContent from "../project-dialog-content";
 
 const styles = makeStyles((theme) => {
 	return {
@@ -28,9 +29,10 @@ const HomeContentCard = ({ Title, Subtitle, ProjectImage, Id }) => {
 		landingPage: useContext(LandingPageContextDispatch),
 	};
 	const classes = styles();
+
 	const onOpenDialogHandler = () => {
 		console.log(Id);
-		OpenDialogAction(dispatch, Title, Id);
+		OpenDialogAction(dispatch, Title, ProjectDialogContent);
 		FetchDetailProject(dispatch, Id);
 	};
 

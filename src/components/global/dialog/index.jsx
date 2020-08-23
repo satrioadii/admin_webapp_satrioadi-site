@@ -30,10 +30,10 @@ const styles = makeStyles((theme) => {
 	};
 });
 
-const GlobalDialog = ({ Content }) => {
+const GlobalDialog = () => {
 	const dispatch = { dialog: useContext(DialogContextDispatch) };
 	const state = { dialog: useContext(DialogContextState) };
-	const { isOpen, title } = state.dialog;
+	const { isOpen, title, DialogComponent } = state.dialog;
 	const classes = styles();
 	const onCloseDialog = () => {
 		CloseDialogAction(dispatch);
@@ -66,7 +66,9 @@ const GlobalDialog = ({ Content }) => {
 						</Box>
 					</Box>
 				</DialogTitle>
-				<DialogContent>{Content}</DialogContent>
+				<DialogContent>
+					{DialogComponent ? <DialogComponent /> : null}
+				</DialogContent>
 				<DialogActions></DialogActions>
 			</Dialog>
 		</Fragment>

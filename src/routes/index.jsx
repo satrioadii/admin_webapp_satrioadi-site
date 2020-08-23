@@ -16,6 +16,7 @@ import { CLOSE_APPBAR } from "../Providers/Appbar/index.type";
 import { AuthContextState } from "../Providers/Auth/index";
 import LandingPageRoutes from "./landingpage";
 import LoginRoutes from "./login";
+import GlobalDialog from "../components/global/dialog";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -90,6 +91,7 @@ const IndexRoutes = () => {
 			<div className={classes.root}>
 				<GlobalAppBar />
 				<GlobalDrawer />
+				<GlobalDialog />
 
 				<main
 					className={clsx(classes.content, {

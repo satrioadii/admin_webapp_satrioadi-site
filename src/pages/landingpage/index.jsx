@@ -52,6 +52,7 @@ const LandingPage = () => {
 
 			<Box marginTop={{ xs: 3, sm: 4 }}>
 				<Grid container spacing={2}>
+					{/* PROJECT CARD */}
 					{data.length > 0 ? (
 						data.map((data, index) => {
 							return (
@@ -71,25 +72,16 @@ const LandingPage = () => {
 							<HomeContentCardEmpty />
 						</Fragment>
 					) : null}
-
-					<GlobalDialog
-						Content={
-							isLoading ? (
-								<EmptyProjectDialogContent />
-							) : (
-								<ProjectDialogContent />
-							)
-						}
-					/>
 				</Grid>
 			</Box>
+			{/* PAGINATION */}
 			<Box
 				marginTop={{ xs: "16px", sm: "24px" }}
 				marginBottom="16px"
 				display="flex"
 				flexDirection="row-reverse"
 			>
-				<Pagination count={pagination.total} />
+				<Pagination count={pagination.total + 5} />
 			</Box>
 		</Fragment>
 	);
