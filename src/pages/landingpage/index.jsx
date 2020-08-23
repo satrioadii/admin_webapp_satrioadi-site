@@ -36,6 +36,7 @@ const LandingPage = () => {
 
 				<Box
 					display={{ xs: "block", md: "flex" }}
+					marginTop={{ xs: 1, sm: 2 }}
 					flexDirection="row"
 					justifyContent="space-between"
 					alignItems="center"
