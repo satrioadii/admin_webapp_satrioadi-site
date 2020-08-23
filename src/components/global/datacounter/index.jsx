@@ -5,7 +5,7 @@ const GlobalDataCounter = ({ title, total }) => {
 	const theme = useTheme();
 
 	return (
-		<Box marginTop={{ xs: "8px", sm: "16px" }}>
+		<Box>
 			<div
 				style={{
 					borderRadius: "8px",

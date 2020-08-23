@@ -2,23 +2,26 @@ import { Box, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { Pagination } from "@material-ui/lab";
 import React, { Fragment, useContext, useEffect } from "react";
+import { FetchAllProject } from "../../actions/landingpage/index";
+import GlobalDataCounter from "../../components/global/datacounter";
 import GlobalDialog from "../../components/global/dialog";
+import HomeAddProjectButton from "../../components/page/landingpage/add-project-button";
 import HomeContentCard from "../../components/page/landingpage/content-card";
 import HomeContentCardEmpty from "../../components/page/landingpage/content-card/empty-index";
+import ProjectDialogContent from "../../components/page/landingpage/project-dialog-content";
 import EmptyProjectDialogContent from "../../components/page/landingpage/project-dialog-content/empty-index";
+import { DialogContextDispatch } from "../../Providers/Dialog";
 import {
 	LandingPageContextDispatch,
 	LandingPageContextState,
 } from "../../Providers/Landingpage";
 import { SnackbarContextDispatch } from "../../Providers/Snackbar";
-import { FetchAllProject } from "../../actions/landingpage/index";
-import GlobalDataCounter from "../../components/global/datacounter";
-import ProjectDialogContent from "../../components/page/landingpage/project-dialog-content";
 
 const LandingPage = () => {
 	const dispatch = {
 		landingPage: useContext(LandingPageContextDispatch),
 		snackbar: useContext(SnackbarContextDispatch),
+		dialog: useContext(DialogContextDispatch),
 	};
 	const state = { landingpage: useContext(LandingPageContextState) };
 	const { pagination, data, isLoading, count } = state.landingpage;
@@ -27,38 +30,47 @@ const LandingPage = () => {
 		FetchAllProject(dispatch);
 	}, []);
 
-	console.log(data);
-
 	return (
 		<Fragment>
 			<Box marginBottom={{ xs: 3, sm: 4 }}>
 				<Typography variant="h5" component="h1">
 					Landing Page
 				</Typography>
-				<GlobalDataCounter total={count} title="Projects" />
+
+				<Box
+					display={{ xs: "block", md: "flex" }}
+					flexDirection="row"
+					justifyContent="space-between"
+					alignItems="center"
+				>
+					<GlobalDataCounter total={count} title="Projects" />
+					<Box marginTop={{ xs: "16px", md: "0px" }}>
+						<HomeAddProjectButton />
+					</Box>
+				</Box>
 			</Box>
-			<Box>
+
+			<Box marginTop={{ xs: 3, sm: 4 }}>
 				<Grid container spacing={2}>
-					{isLoading ? (
+					{data.length > 0 ? (
+						data.map((data, index) => {
+							return (
+								<HomeContentCard
+									key={`ProjectCard${index}`}
+									Title={data.name}
+									Subtitle={data.description}
+									ProjectImage={data.image}
+									Id={data._id}
+								/>
+							);
+						})
+					) : isLoading ? (
 						<Fragment>
 							<HomeContentCardEmpty />
 							<HomeContentCardEmpty />
 							<HomeContentCardEmpty />
 						</Fragment>
 					) : null}
-					{data.length > 0
-						? data.map((data, index) => {
-								return (
-									<HomeContentCard
-										key={`ProjectCard${index}`}
-										Title={data.name}
-										Subtitle={data.description}
-										ProjectImage={data.image}
-										Id={data._id}
-									/>
-								);
-						  })
-						: null}
 
 					<GlobalDialog
 						Content={

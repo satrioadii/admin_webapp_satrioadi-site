@@ -7,8 +7,6 @@ import { LandingPageContextState } from "../../../../Providers/Landingpage";
 const ProjectDialogContent = () => {
 	const state = { landingPage: useContext(LandingPageContextState) };
 	const { isLoading, dataDetail } = state.landingPage;
-	console.log("Ini data detail");
-	console.log(dataDetail);
 
 	return (
 		<Fragment>

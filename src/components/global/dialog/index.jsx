@@ -7,6 +7,7 @@ import {
 	DialogTitle,
 	makeStyles,
 	Typography,
+	Slide,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { useContext } from "react";
@@ -15,6 +16,10 @@ import {
 	DialogContextDispatch,
 } from "../../../Providers/Dialog";
 import { CloseDialogAction } from "../../../actions/dialog";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+	return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const styles = makeStyles((theme) => {
 	return {
@@ -43,6 +48,7 @@ const GlobalDialog = ({ Content }) => {
 				onClose={() => onCloseDialog()}
 				scroll="body"
 				maxWidth="sm"
+				TransitionComponent={Transition}
 			>
 				<DialogTitle>
 					<Box display="flex">
