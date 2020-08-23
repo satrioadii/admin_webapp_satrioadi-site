@@ -1,8 +1,7 @@
+import { Box, Chip, Grid, Typography } from "@material-ui/core";
 import React, { Fragment, useContext } from "react";
-import { Box, Grid, Typography, Chip } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import { ChipsContainer, CustomChip } from "../../../global/chips";
 import { LandingPageContextState } from "../../../../Providers/Landingpage";
+import { ChipsContainer, CustomChip } from "../../../global/chips";
 import EmptyProjectDialogContent from "./empty-index";
 
 const ProjectDialogContent = () => {

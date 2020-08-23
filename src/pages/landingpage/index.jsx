@@ -4,12 +4,9 @@ import { Pagination } from "@material-ui/lab";
 import React, { Fragment, useContext, useEffect } from "react";
 import { FetchAllProject } from "../../actions/landingpage/index";
 import GlobalDataCounter from "../../components/global/datacounter";
-import GlobalDialog from "../../components/global/dialog";
 import HomeAddProjectButton from "../../components/page/landingpage/add-project-button";
 import HomeContentCard from "../../components/page/landingpage/content-card";
 import HomeContentCardEmpty from "../../components/page/landingpage/content-card/empty-index";
-import ProjectDialogContent from "../../components/page/landingpage/project-dialog-content";
-import EmptyProjectDialogContent from "../../components/page/landingpage/project-dialog-content/empty-index";
 import { DialogContextDispatch } from "../../Providers/Dialog";
 import {
 	LandingPageContextDispatch,
@@ -81,7 +78,7 @@ const LandingPage = () => {
 				display="flex"
 				flexDirection="row-reverse"
 			>
-				<Pagination count={pagination.total + 5} />
+				<Pagination count={pagination.total} />
 			</Box>
 		</Fragment>
 	);

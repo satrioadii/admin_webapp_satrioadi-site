@@ -31,7 +31,6 @@ const HomeContentCard = ({ Title, Subtitle, ProjectImage, Id }) => {
 	const classes = styles();
 
 	const onOpenDialogHandler = () => {
-		console.log(Id);
 		OpenDialogAction(dispatch, Title, ProjectDialogContent);
 		FetchDetailProject(dispatch, Id);
 	};

@@ -13,6 +13,7 @@ import {
 const LandingPageReducer = (state, action) => {
 	switch (action.type) {
 		case FETCH_LANDING_DATA_REQUEST:
+			console.log("HAI");
 			return { ...state, isLoading: true };
 		case FETCH_LANDING_DATA_SUCCESS:
 			return {
@@ -25,6 +26,8 @@ const LandingPageReducer = (state, action) => {
 		case FETCH_LANDING_DATA_ERROR:
 			return { ...state, isLoading: false };
 		case FETCH_LANDING_DATA_DETAIL_REQUEST:
+			console.log("HAI2");
+			console.log(state);
 			return { ...state, isLoading: true };
 		case FETCH_LANDING_DATA_DETAIL_SUCCESS:
 			return {

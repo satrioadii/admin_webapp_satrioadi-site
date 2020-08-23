@@ -2,7 +2,7 @@ import React, { useContext, Fragment } from "react";
 import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { DialogContextDispatch } from "../../../../Providers/Dialog";
-import { OPEN_DIALOG } from "../../../../Providers/Dialog/index.type";
+import { OpenDialogAction } from "../../../../actions/dialog";
 
 const HomeAddProjectButton = () => {
 	const dispatch = { dialog: useContext(DialogContextDispatch) };
@@ -14,7 +14,9 @@ const HomeAddProjectButton = () => {
 				variant="contained"
 				color="primary"
 				onClick={() => {
-					dispatch.dialog({ type: OPEN_DIALOG, title: "Add New Project" });
+					OpenDialogAction(dispatch, "Create New Project", () => (
+						<Fragment>It works</Fragment>
+					));
 				}}
 			>
 				<AddIcon /> Add New Project
