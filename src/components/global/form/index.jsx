@@ -23,7 +23,11 @@ export const GlobalTextForm = ({
 }) => {
 	return (
 		<Box marginBottom={{ xs: "16px", md: "20px" }}>
-			<FormControl fullWidth variant="outlined">
+			<FormControl
+				fullWidth
+				variant="outlined"
+				required={required ? true : false}
+			>
 				<InputLabel>{label}</InputLabel>
 				<OutlinedInput
 					required={required ? true : false}
@@ -71,14 +75,10 @@ export const GlobalImageForm = ({
 	width,
 	paddingTop,
 }) => {
-	const [localState, setLocalState] = useState({
-		image: value,
-	});
-
 	const ImageChangeHandler = (e) => {
-		setLocalState({ [e.target.name]: e.target.value });
 		onChange(e);
 	};
+
 	return (
 		<Box marginBottom={{ xs: "16px", md: "20px" }}>
 			<Box marginBottom={{ xs: "8px", sm: "16px" }}>
@@ -89,9 +89,7 @@ export const GlobalImageForm = ({
 						backgroundColor: " #C3C8D8",
 						borderRadius: "16px",
 						cursor: "pointer",
-						backgroundImage: `url(${
-							value ? URL.createObjectURL(localState.image) : null
-						})`,
+						backgroundImage: `url(${value ? value.url : null})`,
 						backgroundPosition: "center",
 						backgroundSize: "cover",
 						backgroundRepeat: "no-repeat",
@@ -106,7 +104,13 @@ export const GlobalImageForm = ({
 				onChange={(e) =>
 					ImageChangeHandler({
 						...e,
-						target: { name: name, value: e.target.files[0] },
+						target: {
+							name: name,
+							value: {
+								file: e.target.files[0],
+								url: URL.createObjectURL(e.target.files[0]),
+							},
+						},
 					})
 				}
 			/>
