@@ -7,6 +7,11 @@ const INITIAL_STATE = {
 	dataDetail: { category: null, tools: [], links: [] },
 	pagination: {},
 	count: 0,
+	tools: JSON.parse(localStorage.getItem("admin_satrio_tools")) || [
+		{
+			label: "Loading",
+		},
+	],
 };
 
 export const LandingPageContextState = createContext();

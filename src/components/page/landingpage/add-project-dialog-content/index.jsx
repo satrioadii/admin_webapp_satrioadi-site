@@ -1,22 +1,16 @@
-import React, { Fragment } from "react";
-import {
-	Stepper,
-	Step,
-	StepLabel,
-	Box,
-	TextField,
-	FormControl,
-	OutlinedInput,
-	InputLabel,
-	Button,
-} from "@material-ui/core";
-import { useState } from "react";
-import {
-	GlobalTextForm,
-	GlobalTextMultilineForm,
-	GlobalImageForm,
-} from "../../../global/form";
+import { Box, Button, Step, StepLabel, Stepper } from "@material-ui/core";
+import React, { Fragment, useEffect, useState } from "react";
 import GlobalWidthMax from "../../../global/widthmax";
+import FirstStepScreen from "./index.screen1";
+import SecondStepScreen from "./index.screen2";
+import { useContext } from "react";
+import {
+	LandingPageContextDispatch,
+	LandingPageContextState,
+} from "../../../../Providers/Landingpage";
+import { SnackbarContextDispatch } from "../../../../Providers/Snackbar";
+import { DialogContextDispatch } from "../../../../Providers/Dialog";
+import { FetchAllTool, CreateProject } from "../../../../actions/landingpage";
 
 const StepperLoader = ({ localState }) => {
 	return (
@@ -33,87 +27,16 @@ const StepperLoader = ({ localState }) => {
 	);
 };
 
-const FirstStepScreen = ({ localState, onChange, stepScreen, step }) => {
-	return (
-		<Fragment>
-			{stepScreen === step ? (
-				<Fragment>
-					<GlobalImageForm
-						required
-						name="image"
-						label="Select an image"
-						width="100%"
-						paddingTop="133%"
-						value={localState.image}
-						onChange={(e) => onChange(e)}
-					/>
-					<GlobalTextForm
-						required
-						name="title"
-						label="Title"
-						placeholder="Enter the title"
-						value={localState.title}
-						onChange={(e) => onChange(e)}
-					/>
-					<GlobalTextMultilineForm
-						required
-						name="description"
-						label="Description"
-						placeholder="Enter the description"
-						value={localState.description}
-						onChange={(e) => onChange(e)}
-					/>
-				</Fragment>
-			) : null}
-		</Fragment>
-	);
-};
-const SecondStepScreen = ({ localState, onChange, stepScreen, step }) => {
-	return (
-		<Fragment>
-			{stepScreen === step ? (
-				<Fragment>
-					<GlobalImageForm
-						required
-						name="modalImage"
-						label="Select an image for modal"
-						width="100%"
-						paddingTop="75%"
-						value={localState.modalImage}
-						onChange={(e) => onChange(e)}
-					/>
-					<GlobalTextForm
-						required
-						name="category"
-						label="Category"
-						placeholder="Enter the category"
-						value={localState.category}
-						onChange={(e) => onChange(e)}
-					/>
-					<GlobalTextMultilineForm
-						required
-						name="descriptionDetail"
-						label="Description Detail"
-						placeholder="Enter the description detail"
-						value={localState.descriptionDetail}
-						onChange={(e) => onChange(e)}
-					/>
-					<GlobalImageForm
-						required
-						name="organizationImage"
-						label="Select an image for oraginzation"
-						width="100%"
-						paddingTop="75%"
-						value={localState.organizationImage}
-						onChange={(e) => onChange(e)}
-					/>
-				</Fragment>
-			) : null}
-		</Fragment>
-	);
-};
-
 const AddProjectDialogContent = () => {
+	const dispatch = {
+		landingPage: useContext(LandingPageContextDispatch),
+		snackbar: useContext(SnackbarContextDispatch),
+		dialog: useContext(DialogContextDispatch),
+	};
+	const state = {
+		landingPage: useContext(LandingPageContextState),
+	};
+
 	const [localState, setLocalState] = useState({
 		steps: ["Overview Content", "Detail Content"],
 		step: 0,
@@ -125,9 +48,17 @@ const AddProjectDialogContent = () => {
 		descriptionDetail: "",
 		organizationImage: "",
 		tools: [],
+		toolsOptions: state.landingPage.tools,
 		links: [],
-		toolsOptions: [{ label: "Tunggu sebentar", value: undefined }],
 	});
+
+	useEffect(() => {
+		onGetAllTools();
+	}, []);
+
+	const onGetAllTools = () => {
+		FetchAllTool(dispatch);
+	};
 
 	const onFormStateChange = (e) => {
 		setLocalState({ ...localState, [e.target.name]: e.target.value });
@@ -137,6 +68,16 @@ const AddProjectDialogContent = () => {
 		setLocalState({ ...localState, step: nextStep });
 	};
 
+	const onCreate = () => {
+		const toCreate = localState;
+
+		// Remove unnecesary data
+		delete toCreate.steps;
+		delete toCreate.step;
+		delete toCreate.toolsOptions;
+
+		CreateProject(dispatch, toCreate);
+	};
 	return (
 		<Fragment>
 			<StepperLoader localState={localState} />
@@ -153,6 +94,8 @@ const AddProjectDialogContent = () => {
 					onChange={onFormStateChange}
 					step={localState.step}
 					stepScreen={1}
+					options={localState.toolsOptions}
+					onRefreshData={() => onGetAllTools()}
 				/>
 			</Box>
 			<Box display="flex" justifyContent="space-between">

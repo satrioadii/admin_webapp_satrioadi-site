@@ -1,17 +1,13 @@
-import React, { Fragment, useRef } from "react";
 import {
+	Box,
 	FormControl,
+	InputBase,
 	InputLabel,
 	OutlinedInput,
-	Box,
 	TextField,
-	Input,
-	Button,
-	InputBase,
-	FilledInput,
 } from "@material-ui/core";
-import { createRef } from "react";
-import { useState } from "react";
+import { Autocomplete } from "@material-ui/lab";
+import React from "react";
 
 export const GlobalTextForm = ({
 	name,
@@ -113,6 +109,40 @@ export const GlobalImageForm = ({
 						},
 					})
 				}
+			/>
+		</Box>
+	);
+};
+
+export const GlobalAutoCompleteForm = ({
+	value,
+	options,
+	label,
+	name,
+	onChange,
+	clearOnEscape,
+}) => {
+	const AutocompleteChange = (e, newValue) => {
+		onChange({ ...e, target: { ...e.target, name: name, value: newValue } });
+	};
+
+	return (
+		<Box marginBottom={{ xs: "8px", sm: "16px" }}>
+			<Autocomplete
+				value={value}
+				onChange={(e, newValue) => AutocompleteChange(e, newValue)}
+				options={options}
+				clearOnEscape={clearOnEscape ? true : false}
+				getOptionLabel={(option) => option.label}
+				renderInput={(params) => (
+					<TextField
+						{...params}
+						label={label}
+						variant="outlined"
+						fullWidth
+						name={name}
+					/>
+				)}
 			/>
 		</Box>
 	);

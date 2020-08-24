@@ -18,30 +18,26 @@ export const CustomChip = ({
 	variant,
 	link,
 	commands,
-	newTab,
+	onDelete,
 }) => {
 	return (
 		<Grid item>
 			{link ? (
-				<a
-					href={link}
-					target={newTab ? "_blank" : undefined}
-					style={{ textDecoration: "none" }}
-				>
-					<Chip
-						label={label}
-						size={size ? size : "medium"}
-						color={color ? color : undefined}
-						variant={variant ? variant : "default"}
-						onClick={() => commands}
-					/>
-				</a>
+				<Chip
+					label={label}
+					size={size ? size : "medium"}
+					color={color ? color : undefined}
+					variant={variant ? variant : "default"}
+					onClick={() => window.open(link)}
+					onDelete={onDelete ? () => onDelete(label) : false}
+				/>
 			) : (
 				<Chip
 					label={label}
 					size={size ? size : "medium"}
 					color={color ? color : undefined}
 					variant={variant ? variant : "default"}
+					onDelete={onDelete ? onDelete : false}
 				/>
 			)}
 		</Grid>
