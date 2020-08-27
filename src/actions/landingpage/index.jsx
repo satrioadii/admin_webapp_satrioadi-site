@@ -84,8 +84,6 @@ export const CreateProject = async (dispatch, data) => {
 
 	dispatch.landingPage({ type: CHANGE_LANDING_DATA_REQUEST });
 
-	console.log(TOKEN);
-
 	try {
 		const response = await axios.post(`${BASE_URL_PROJECT}/`, formData, {
 			headers: {
@@ -100,7 +98,8 @@ export const CreateProject = async (dispatch, data) => {
 			message: "New project created",
 			snacktype: "success",
 		});
-		return response;
+
+		return true;
 	} catch (error) {
 		console.log(error.response);
 		dispatch.landingPage({ type: CHANGE_LANDING_DATA_ERROR });
@@ -109,22 +108,20 @@ export const CreateProject = async (dispatch, data) => {
 			message: "Create project failed",
 			snacktype: "error",
 		});
-		return error.response;
+		return false;
 	}
 };
 
 export const DeleteProject = async (dispatch, id) => {
 	try {
-		const response = await axios.delete(
-			`${BASE_URL_PROJECT}/${id}`,
-			{},
-			{
-				headers: {
-					"Content-Type": "multipart/form-data",
-					Authorization: TOKEN,
-				},
-			}
-		);
+		const response = await axios({
+			method: "delete",
+			url: `${BASE_URL_PROJECT}/${id}`,
+			headers: {
+				"Content-Type": "application/json",
+				authorization: TOKEN,
+			},
+		});
 
 		dispatch.landingPage({ type: CHANGE_LANDING_DATA_SUCCESS });
 		dispatch.snackbar({
@@ -132,7 +129,7 @@ export const DeleteProject = async (dispatch, id) => {
 			message: "Project deleted",
 			snacktype: "success",
 		});
-		return response;
+		return true;
 	} catch (error) {
 		console.log(error.response);
 		dispatch.landingPage({ type: CHANGE_LANDING_DATA_ERROR });
@@ -141,7 +138,7 @@ export const DeleteProject = async (dispatch, id) => {
 			message: "Delete project failed",
 			snacktype: "error",
 		});
-		return error.response;
+		return false;
 	}
 };
 

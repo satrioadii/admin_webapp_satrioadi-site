@@ -56,7 +56,7 @@ const LandingPage = () => {
 							return (
 								<HomeContentCard
 									key={`ProjectCard${index}`}
-									Title={data.name}
+									Title={data.title}
 									Subtitle={data.description}
 									ProjectImage={data.image}
 									Id={data._id}

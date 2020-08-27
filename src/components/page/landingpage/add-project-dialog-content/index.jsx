@@ -10,7 +10,13 @@ import {
 } from "../../../../Providers/Landingpage";
 import { SnackbarContextDispatch } from "../../../../Providers/Snackbar";
 import { DialogContextDispatch } from "../../../../Providers/Dialog";
-import { FetchAllTool, CreateProject } from "../../../../actions/landingpage";
+import {
+	FetchAllTool,
+	CreateProject,
+	FetchAllProject,
+} from "../../../../actions/landingpage";
+import ThirdStepScreen from "./index.screen3";
+import { CloseDialogAction } from "../../../../actions/dialog";
 
 const StepperLoader = ({ localState }) => {
 	return (
@@ -90,10 +96,16 @@ const AddProjectDialogContent = () => {
 		const result = await CreateProject(dispatch, toCreate);
 
 		// Status check
-		if (result.status === 200 || result.status === 201) {
+		if (result) {
 			onButtonStepClicked(localState.step + 1);
+			FetchAllProject(dispatch);
 		}
 	};
+
+	const onCloseDialog = () => {
+		CloseDialogAction(dispatch);
+	};
+
 	return (
 		<Fragment>
 			<StepperLoader localState={localState} />
@@ -113,15 +125,19 @@ const AddProjectDialogContent = () => {
 					options={localState.toolsOptions}
 					onRefreshData={() => onGetAllTools()}
 				/>
+				<ThirdStepScreen step={localState.step} stepScreen={2} />
 			</Box>
 			<Box display="flex" justifyContent="space-between">
-				<Button
-					color="secondary"
-					disabled={localState.step === 0 ? true : false}
-					onClick={() => onButtonStepClicked(localState.step - 1)}
-				>
-					Prev
-				</Button>
+				{localState.step === 2 ? null : (
+					<Button
+						color="secondary"
+						disabled={localState.step === 0 ? true : false}
+						onClick={() => onButtonStepClicked(localState.step - 1)}
+					>
+						Prev
+					</Button>
+				)}
+
 				{localState.step === 0 ? (
 					<Button
 						key="button-next"
@@ -139,6 +155,17 @@ const AddProjectDialogContent = () => {
 						onClick={() => onCreateProject()}
 					>
 						Upload
+					</Button>
+				) : null}
+				{localState.step === 2 ? (
+					<Button
+						key="button-upload"
+						color="primary"
+						variant="outlined"
+						fullWidth
+						onClick={() => onCloseDialog()}
+					>
+						Close Dialog
 					</Button>
 				) : null}
 			</Box>

@@ -3,6 +3,7 @@ import React, { Fragment, useContext } from "react";
 import { LandingPageContextState } from "../../../../Providers/Landingpage";
 import { ChipsContainer, CustomChip } from "../../../global/chips";
 import EmptyProjectDialogContent from "./empty-index";
+import GlobalWidthMax from "../../../global/widthmax";
 
 const ProjectDialogContent = () => {
 	const state = { landingPage: useContext(LandingPageContextState) };
@@ -15,6 +16,7 @@ const ProjectDialogContent = () => {
 
 	return (
 		<Fragment>
+			<GlobalWidthMax />
 			{isLoading ? null : (
 				<div
 					style={{
