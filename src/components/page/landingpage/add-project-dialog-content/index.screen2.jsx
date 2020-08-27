@@ -6,15 +6,26 @@ import {
 } from "../../../global/form";
 import GlobalAutocompleteChipsSelectForm from "../../../global/form/chips/index.select";
 import GlobalAutocompleteChipsAddForm from "../../../global/form/chips/index.add";
+import { Button, Box } from "@material-ui/core";
+import { CreateTool } from "../../../../actions/landingpage";
 
 const SecondStepScreen = ({
+	step,
+	stepScreen,
 	localState,
 	onChange,
-	stepScreen,
-	step,
 	options,
 	onRefreshData,
+	dispatch,
 }) => {
+	// Create new tool immediately
+	const newToolHandler = async (e) => {
+		const created = await CreateTool(dispatch, e.target.value[0]);
+		if (created) {
+			onChange({ target: { name: "newTool", value: false } });
+		}
+	};
+
 	return (
 		<Fragment>
 			{stepScreen === step ? (
@@ -61,6 +72,32 @@ const SecondStepScreen = ({
 						onChange={(e) => onChange(e)}
 						onRefreshData={() => onRefreshData()}
 					/>
+
+					{/* Add new tool */}
+					<Box marginBottom="16px">
+						<Button
+							variant="outlined"
+							color="primary"
+							fullWidth={!localState.newTool}
+							onClick={(e) =>
+								onChange({
+									target: { name: "newTool", value: !localState.newTool },
+								})
+							}
+						>
+							{localState.newTool ? "Done" : "Add new tool"}
+						</Button>
+					</Box>
+					{localState.newTool ? (
+						<GlobalAutocompleteChipsAddForm
+							name="newToolData"
+							label="Add new tool"
+							variant="outlined"
+							onChange={(e) => newToolHandler(e)}
+						/>
+					) : null}
+					{/* Add new tool end */}
+
 					<GlobalAutocompleteChipsAddForm
 						name="links"
 						label="Add links"

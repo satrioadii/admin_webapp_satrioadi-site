@@ -22,12 +22,11 @@ const StepperLoader = ({ localState }) => {
 	return (
 		<div style={{ width: "100%" }}>
 			<Stepper activeStep={localState.step} alternativeLabel>
-				<Step>
-					<StepLabel>Overview Content</StepLabel>
-				</Step>
-				<Step>
-					<StepLabel>Detail Content</StepLabel>
-				</Step>
+				{localState.steps.map((data, index) => (
+					<Step key={`projectStep${index}`}>
+						<StepLabel>{data}</StepLabel>
+					</Step>
+				))}
 			</Stepper>
 		</div>
 	);
@@ -55,12 +54,17 @@ const AddProjectDialogContent = () => {
 		organizationImage: "",
 		tools: [],
 		toolsOptions: state.landingPage.tools,
+		newTool: false,
 		links: [],
 	});
 
 	useEffect(() => {
 		onGetAllTools();
 	}, []);
+
+	useEffect(() => {
+		setLocalState({ ...localState, toolsOptions: state.landingPage.tools });
+	}, [state.landingPage.tools]);
 
 	const onGetAllTools = () => {
 		FetchAllTool(dispatch);
@@ -76,10 +80,12 @@ const AddProjectDialogContent = () => {
 
 	const onCreateProject = async () => {
 		let toCreate = Object.assign({}, localState);
+
 		// Remove unnecesary data
 		delete toCreate.steps;
 		delete toCreate.step;
 		delete toCreate.toolsOptions;
+		delete toCreate.newTool;
 
 		// Send file only
 		const imageKey = ["image", "modalImage", "organizationImage"];
@@ -124,6 +130,7 @@ const AddProjectDialogContent = () => {
 					stepScreen={1}
 					options={localState.toolsOptions}
 					onRefreshData={() => onGetAllTools()}
+					dispatch={dispatch}
 				/>
 				<ThirdStepScreen step={localState.step} stepScreen={2} />
 			</Box>

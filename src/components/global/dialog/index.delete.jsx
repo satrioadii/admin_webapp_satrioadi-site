@@ -4,17 +4,17 @@ import { CloseDialogAction } from "../../../actions/dialog/";
 import { DialogContextDispatch } from "../../../Providers/Dialog/index";
 
 const GlobalDeleteDialog = ({ onAccept }) => {
-	const localDispatch = {
+	const dispatch = {
 		dialog: useContext(DialogContextDispatch),
 	};
 
 	const onAcceptHandler = () => {
 		onAccept();
-		CloseDialogAction(localDispatch);
+		CloseDialogAction(dispatch);
 	};
 
 	const onCancelHandler = () => {
-		CloseDialogAction(localDispatch);
+		CloseDialogAction(dispatch);
 	};
 	return (
 		<Fragment>

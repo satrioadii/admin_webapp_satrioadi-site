@@ -168,3 +168,34 @@ export const FetchAllTool = async (dispatch) => {
 		});
 	}
 };
+
+export const CreateTool = async (dispatch, data) => {
+	try {
+		const response = await axios({
+			method: "post",
+			url: `${BASE_URL_TOOL}/`,
+			headers: {
+				"Content-Type": "application/json",
+				authorization: TOKEN,
+			},
+			data: data,
+		});
+
+		dispatch.landingPage({ type: CHANGE_LANDING_DATA_SUCCESS });
+		dispatch.snackbar({
+			type: OPEN_SNACKBAR,
+			message: `Tool ${data.label} created`,
+			snacktype: "success",
+		});
+		return true;
+	} catch (error) {
+		console.log(error.response);
+		dispatch.landingPage({ type: CHANGE_LANDING_DATA_ERROR });
+		dispatch.snackbar({
+			type: OPEN_SNACKBAR,
+			message: "Failed to create a tool",
+			snacktype: "error",
+		});
+		return false;
+	}
+};

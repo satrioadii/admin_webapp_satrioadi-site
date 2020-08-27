@@ -1,6 +1,6 @@
 import { Box, Typography, IconButton } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { ChipsContainer, CustomChip } from "../../chips";
 import { GlobalAutoCompleteForm } from "../index";
 
@@ -16,6 +16,10 @@ const GlobalAutocompleteChipsSelectForm = ({
 		datas: [],
 		options: options,
 	});
+
+	useEffect(() => {
+		setLocalState({ ...localState, options: options });
+	}, [options]);
 
 	const AddDataHandler = (e) => {
 		// ADD NEW datas

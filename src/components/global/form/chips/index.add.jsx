@@ -4,7 +4,13 @@ import React, { Fragment, useState } from "react";
 import { ChipsContainer, CustomChip } from "../../chips";
 import { GlobalAutoCompleteForm, GlobalTextForm } from "../index";
 
-const GlobalAutocompleteChipsAddForm = ({ value, label, name, onChange }) => {
+const GlobalAutocompleteChipsAddForm = ({
+	value,
+	label,
+	name,
+	onChange,
+	variant,
+}) => {
 	const [localState, setLocalState] = useState({
 		datas: [],
 		variant: ["outlined", "default"],
@@ -13,6 +19,7 @@ const GlobalAutocompleteChipsAddForm = ({ value, label, name, onChange }) => {
 			color: null,
 			label: "",
 			link: "",
+			variant: "",
 		},
 	});
 
@@ -21,6 +28,7 @@ const GlobalAutocompleteChipsAddForm = ({ value, label, name, onChange }) => {
 		const toPushData = {
 			...localState.temporary,
 			color: localState.temporary.color.label,
+			variant: variant,
 		};
 		localState.datas.push(toPushData);
 		setLocalState({
@@ -29,10 +37,9 @@ const GlobalAutocompleteChipsAddForm = ({ value, label, name, onChange }) => {
 				color: null,
 				label: "",
 				link: "",
+				variant: variant,
 			},
 		});
-
-		console.log(name, localState.datas);
 
 		// Set top variable
 		onChange({ target: { name: name, value: localState.datas } });
@@ -124,10 +131,11 @@ const GlobalAutocompleteChipsAddForm = ({ value, label, name, onChange }) => {
 				value={localState.temporary.link}
 				onChange={(e) => ChipsDataHandler(e)}
 			/>
-
-			<Button variant="outlined" color="primary" onClick={AddDataHandler}>
-				Add Chips
-			</Button>
+			<Box marginBottom={{ xs: "8px", sm: "16px" }}>
+				<Button variant="outlined" color="primary" onClick={AddDataHandler}>
+					Add Chips
+				</Button>
+			</Box>
 		</Fragment>
 	);
 };
