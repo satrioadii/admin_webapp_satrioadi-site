@@ -30,6 +30,8 @@ const HomeContentCard = ({ Title, Subtitle, ProjectImage, Id }) => {
 	};
 	const classes = styles();
 
+	const fileServerAPI = process.env.REACT_APP_FILE_SERVER_API;
+
 	const onOpenDialogHandler = () => {
 		OpenDialogAction(dispatch, Title, ProjectDialogContent);
 		FetchDetailProject(dispatch, Id);
@@ -45,7 +47,7 @@ const HomeContentCard = ({ Title, Subtitle, ProjectImage, Id }) => {
 					backgroundColor: " #C3C8D8",
 					borderRadius: "16px",
 					cursor: "pointer",
-					backgroundImage: `url(${ProjectImage})`,
+					backgroundImage: `url("${fileServerAPI}/${ProjectImage}")`,
 					backgroundSize: "cover",
 				}}
 			></div>

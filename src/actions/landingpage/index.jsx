@@ -15,6 +15,7 @@ import {
 } from "../../Providers/Landingpage/index.type";
 import { OPEN_SNACKBAR } from "../../Providers/Snackbar/index.type";
 import { CloseDialogAction } from "../dialog";
+import { objToString } from "../../utils/objectHandler";
 
 const TOKEN = `Bearer ${localStorage.getItem("satrio_admin_token")}`;
 const BASE_URL_PROJECT = `${process.env.REACT_APP_HOST_API}/${process.env.REACT_APP_VERSION_1_API}/project`;
@@ -75,20 +76,23 @@ export const FetchDetailProject = async (dispatch, id) => {
 };
 
 export const CreateProject = async (dispatch, data) => {
+	// Convert object content to string
+	const newObj = objToString(data, ["links", "tools"]);
+
+	let formData = new FormData();
+	Object.entries(newObj).forEach(([key, val]) => formData.append(key, val));
+
 	dispatch.landingPage({ type: CHANGE_LANDING_DATA_REQUEST });
 
-	try {
-		const response = await axios({
-			method: "post",
-			url: `${BASE_URL_PROJECT}`,
-			header: {
-				"Content-Type": "application/json",
-				authorization: TOKEN,
-			},
-			data: data,
-		});
+	console.log(TOKEN);
 
-		console.log(response.data);
+	try {
+		const response = await axios.post(`${BASE_URL_PROJECT}/`, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+				Authorization: TOKEN,
+			},
+		});
 
 		dispatch.landingPage({ type: CHANGE_LANDING_DATA_SUCCESS });
 		dispatch.snackbar({
@@ -96,8 +100,7 @@ export const CreateProject = async (dispatch, data) => {
 			message: "New project created",
 			snacktype: "success",
 		});
-		FetchAllProject(dispatch);
-		CloseDialogAction(dispatch);
+		return response;
 	} catch (error) {
 		console.log(error.response);
 		dispatch.landingPage({ type: CHANGE_LANDING_DATA_ERROR });
@@ -106,6 +109,39 @@ export const CreateProject = async (dispatch, data) => {
 			message: "Create project failed",
 			snacktype: "error",
 		});
+		return error.response;
+	}
+};
+
+export const DeleteProject = async (dispatch, id) => {
+	try {
+		const response = await axios.delete(
+			`${BASE_URL_PROJECT}/${id}`,
+			{},
+			{
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: TOKEN,
+				},
+			}
+		);
+
+		dispatch.landingPage({ type: CHANGE_LANDING_DATA_SUCCESS });
+		dispatch.snackbar({
+			type: OPEN_SNACKBAR,
+			message: "Project deleted",
+			snacktype: "success",
+		});
+		return response;
+	} catch (error) {
+		console.log(error.response);
+		dispatch.landingPage({ type: CHANGE_LANDING_DATA_ERROR });
+		dispatch.snackbar({
+			type: OPEN_SNACKBAR,
+			message: "Delete project failed",
+			snacktype: "error",
+		});
+		return error.response;
 	}
 };
 

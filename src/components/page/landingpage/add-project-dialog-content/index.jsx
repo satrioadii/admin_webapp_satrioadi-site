@@ -68,15 +68,31 @@ const AddProjectDialogContent = () => {
 		setLocalState({ ...localState, step: nextStep });
 	};
 
-	const onCreate = () => {
-		const toCreate = localState;
-
+	const onCreateProject = async () => {
+		let toCreate = Object.assign({}, localState);
 		// Remove unnecesary data
 		delete toCreate.steps;
 		delete toCreate.step;
 		delete toCreate.toolsOptions;
 
-		CreateProject(dispatch, toCreate);
+		// Send file only
+		const imageKey = ["image", "modalImage", "organizationImage"];
+		await imageKey.forEach((data) => {
+			if (
+				typeof toCreate[data] === "undefined" ||
+				typeof toCreate[data] === "string"
+			)
+				return;
+			else {
+				toCreate = { ...toCreate, [data]: toCreate[data].file };
+			}
+		});
+		const result = await CreateProject(dispatch, toCreate);
+
+		// Status check
+		if (result.status === 200 || result.status === 201) {
+			onButtonStepClicked(localState.step + 1);
+		}
 	};
 	return (
 		<Fragment>
@@ -106,16 +122,25 @@ const AddProjectDialogContent = () => {
 				>
 					Prev
 				</Button>
-				<Button
-					color="primary"
-					onClick={() =>
-						localState.step < localState.steps.length
-							? onButtonStepClicked(localState.step + 1)
-							: null
-					}
-				>
-					Next
-				</Button>
+				{localState.step === 0 ? (
+					<Button
+						key="button-next"
+						color="primary"
+						onClick={() => onButtonStepClicked(localState.step + 1)}
+					>
+						Next
+					</Button>
+				) : null}
+
+				{localState.step === 1 ? (
+					<Button
+						key="button-upload"
+						color="primary"
+						onClick={() => onCreateProject()}
+					>
+						Upload
+					</Button>
+				) : null}
 			</Box>
 		</Fragment>
 	);

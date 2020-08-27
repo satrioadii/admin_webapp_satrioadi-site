@@ -19,15 +19,12 @@ const AuthReducer = (state, action) => {
 				isLoading: false,
 				token: `Bearer ${action.payload.token}`,
 			};
-		case LOGIN_ERROR:
-			localStorage.removeItem("satrio_admin_token");
-			return { ...state, isLoading: false, token: null };
 		case CHECK_AUTH_REQUEST:
 			return { ...state, isLoading: true };
 		case CHECK_AUTH_SUCCESS:
 			return { ...state, isLoading: false, user: action.payload.role };
+		case LOGIN_ERROR:
 		case CHECK_AUTH_ERROR:
-			return { ...state, isLoading: false };
 		case LOGOUT_REQUEST:
 			localStorage.removeItem("satrio_admin_token");
 			return { ...state, isLoading: false, token: null };

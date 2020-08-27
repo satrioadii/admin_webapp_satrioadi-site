@@ -15,7 +15,6 @@ const SecondStepScreen = ({
 	options,
 	onRefreshData,
 }) => {
-	console.log(localState);
 	return (
 		<Fragment>
 			{stepScreen === step ? (

@@ -7,6 +7,7 @@ import EmptyProjectDialogContent from "./empty-index";
 const ProjectDialogContent = () => {
 	const state = { landingPage: useContext(LandingPageContextState) };
 	const { isLoading, dataDetail } = state.landingPage;
+	const fileServerAPI = process.env.REACT_APP_FILE_SERVER_API;
 
 	if (isLoading) {
 		return <EmptyProjectDialogContent />;
@@ -21,7 +22,7 @@ const ProjectDialogContent = () => {
 						paddingTop: "75%",
 						backgroundColor: " #C3C8D8",
 						backgroundImage: `url("${
-							dataDetail ? dataDetail.modalImage : null
+							dataDetail ? `${fileServerAPI}/${dataDetail.modalImage}` : null
 						}")`,
 						borderRadius: "4px",
 						marginBottom: "16px",
@@ -63,7 +64,9 @@ const ProjectDialogContent = () => {
 										marginTop: "8px",
 										paddingBottom: "75%",
 										backgroundImage: `url("${
-											dataDetail ? dataDetail.organizationImage : null
+											dataDetail
+												? `${fileServerAPI}/${dataDetail.organizationImage}`
+												: null
 										}")`,
 										backgroundSize: "cover",
 										backgroundRepeat: "none",

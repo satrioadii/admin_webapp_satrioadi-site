@@ -1,21 +1,25 @@
 import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import {
 	BrowserRouter as Router,
 	Redirect,
 	Route,
 	Switch,
+	useHistory,
+	useLocation,
 } from "react-router-dom";
 import GlobalAppBar from "../components/global/appbar";
 import GlobalDrawer from "../components/global/drawer";
 import GlobalSnackbar from "../components/global/snackbar";
 import { AppbarContextDispatch, AppbarContextState } from "../Providers/Appbar";
 import { CLOSE_APPBAR } from "../Providers/Appbar/index.type";
-import { AuthContextState } from "../Providers/Auth/index";
+import { AuthContextState, AuthContextDispatch } from "../Providers/Auth/index";
 import LandingPageRoutes from "./landingpage";
 import LoginRoutes from "./login";
+import { SnackbarContextDispatch } from "../Providers/Snackbar";
+import { CheckAuthAction } from "../actions/auth";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -60,12 +64,21 @@ const useStyles = makeStyles((theme) => ({
 
 const IndexRoutes = () => {
 	const classes = useStyles();
-	const dispatch = { appbar: useContext(AppbarContextDispatch) };
+	const dispatch = {
+		appbar: useContext(AppbarContextDispatch),
+		auth: useContext(AuthContextDispatch),
+		snackbar: useContext(SnackbarContextDispatch),
+	};
 	const state = {
 		auth: useContext(AuthContextState),
 		appbar: useContext(AppbarContextState),
 	};
 	const { isOpen } = state.appbar;
+
+	// Check auth every time the page change
+	useEffect(() => {
+		CheckAuthAction(dispatch);
+	}, [window.location.pathname]);
 
 	// If token is not exist, force to login route
 	if (!state.auth.token) {

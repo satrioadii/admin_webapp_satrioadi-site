@@ -89,7 +89,7 @@ const GlobalDrawer = () => {
 				</List>
 				<Divider />
 				<List>
-					<ListItem button onClick={() => LogoutAction(dispatch.auth)}>
+					<ListItem button onClick={() => LogoutAction(dispatch)}>
 						<ListItemIcon>
 							<ExitToApp />
 						</ListItemIcon>
