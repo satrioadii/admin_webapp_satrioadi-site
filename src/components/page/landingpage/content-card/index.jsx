@@ -13,6 +13,7 @@ import { LandingPageContextDispatch } from "../../../../Providers/Landingpage";
 import ProjectDialogContent from "../project-dialog-content";
 import GlobalWidthMax from "../../../global/widthmax";
 import GlobalDeleteDialog from "../../../global/dialog/index.delete";
+import EditProjectDialogContent from "../edit-project-dialog-content";
 
 const styles = makeStyles((theme) => {
 	return {
@@ -43,17 +44,25 @@ const HomeContentCard = ({ Title, Subtitle, ProjectImage, Id }) => {
 		FetchDetailProject(dispatch, Id);
 	};
 
+	// Delete Handler
 	const onDeleteCaller = async () => {
 		OpenDialogAction(dispatch, "Delete A Project", () => (
 			<GlobalDeleteDialog onAccept={() => onDeleteAccept()} />
 		));
 	};
-
 	const onDeleteAccept = async () => {
 		const response = await DeleteProject(dispatch, Id);
 		if (response) {
 			FetchAllProject(dispatch);
 		}
+	};
+
+	// Edit Handler
+	const onEditHandler = async () => {
+		await FetchDetailProject(dispatch, Id);
+		OpenDialogAction(dispatch, `Edit ${Title}`, () => (
+			<EditProjectDialogContent />
+		));
 	};
 
 	return (
