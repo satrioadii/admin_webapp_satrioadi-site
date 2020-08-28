@@ -13,3 +13,11 @@ export const stringToObj = (obj, target) => {
 
 	return obj;
 };
+
+export const removeThis = (obj, target) => {
+	target.forEach((key) => {
+		delete obj[key];
+	});
+
+	return obj;
+};

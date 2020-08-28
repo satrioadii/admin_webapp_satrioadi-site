@@ -13,12 +13,12 @@ const GlobalAutocompleteChipsSelectForm = ({
 	onRefreshData,
 }) => {
 	const [localState, setLocalState] = useState({
-		datas: [],
+		datas: value.length > 0 ? value : [],
 		options: options,
 	});
 
 	useEffect(() => {
-		setLocalState({ ...localState, options: options });
+		setLocalState((current) => ({ ...current, options: options }));
 	}, [options]);
 
 	const AddDataHandler = (e) => {
@@ -34,7 +34,7 @@ const GlobalAutocompleteChipsSelectForm = ({
 		const newdatas = localState.datas.filter((data) => {
 			return data.label !== label;
 		});
-		setLocalState({ ...localState, datas: newdatas });
+		setLocalState((current) => ({ ...localState, datas: newdatas }));
 
 		// Set top variable
 		onChange({ target: { name: name, value: newdatas } });

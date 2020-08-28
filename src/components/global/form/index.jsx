@@ -85,7 +85,7 @@ export const GlobalImageForm = ({
 						backgroundColor: " #C3C8D8",
 						borderRadius: "16px",
 						cursor: "pointer",
-						backgroundImage: `url(${value ? value.url : null})`,
+						backgroundImage: `url(${value ? `'${value.url}'` : null})`,
 						backgroundPosition: "center",
 						backgroundSize: "cover",
 						backgroundRepeat: "no-repeat",

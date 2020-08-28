@@ -10,13 +10,11 @@ import {
 } from "../../../../Providers/Landingpage";
 import { SnackbarContextDispatch } from "../../../../Providers/Snackbar";
 import { DialogContextDispatch } from "../../../../Providers/Dialog";
-import {
-	FetchAllTool,
-	CreateProject,
-	FetchAllProject,
-} from "../../../../actions/landingpage";
+import { FetchAllTool, UpdateProject } from "../../../../actions/landingpage";
 import ThirdStepScreen from "./index.screen3";
 import { CloseDialogAction } from "../../../../actions/dialog";
+import { removeThis } from "../../../../utils/objectHandler";
+import { imageToUpload, imageToLocal } from "../../../../utils/imageHandler";
 
 const StepperLoader = ({ localState }) => {
 	return (
@@ -32,7 +30,7 @@ const StepperLoader = ({ localState }) => {
 	);
 };
 
-const EditProjectDialogContent = () => {
+const EditProjectDialogContent = ({ id, onUpdated }) => {
 	const dispatch = {
 		landingPage: useContext(LandingPageContextDispatch),
 		snackbar: useContext(SnackbarContextDispatch),
@@ -59,56 +57,86 @@ const EditProjectDialogContent = () => {
 	});
 
 	useEffect(() => {
-		onGetAllTools();
-	}, []);
-
-	useEffect(() => {
-		setLocalState({ ...localState, toolsOptions: state.landingPage.tools });
+		setLocalState((current) => ({
+			...current,
+			toolsOptions: state.landingPage.tools,
+		}));
 	}, [state.landingPage.tools]);
 
-	const onGetAllTools = () => {
-		FetchAllTool(dispatch);
+	useEffect(() => {
+		const data = onConvertDataToLocalState();
+		const dataDetail = onConvertDataDetailToLocalState();
+		setLocalState((current) => ({ ...current, ...data, ...dataDetail }));
+	}, [state.landingPage.dataDetail]);
+
+	const onGetAllTools = async () => {
+		await FetchAllTool(dispatch);
+	};
+
+	const onConvertDataToLocalState = () => {
+		const { data } = state.landingPage;
+
+		// Get the data
+		let result = Object.assign([], data);
+
+		// Filter
+		result = result.filter((data) => data._id === id);
+		result = Object.assign({}, ...result);
+
+		// Re-structure the image data
+		const keyImage = ["image"];
+		result = imageToLocal(result, keyImage);
+
+		// Return
+		return result;
+	};
+
+	const onConvertDataDetailToLocalState = () => {
+		const { dataDetail } = state.landingPage;
+
+		// Get the data
+		let result = Object.assign({}, dataDetail);
+
+		// Re-structure the image data
+		const keyImage = ["modalImage", "organizationImage"];
+		result = imageToLocal(result, keyImage);
+
+		// Return
+		return result;
 	};
 
 	const onFormStateChange = (e) => {
-		setLocalState({ ...localState, [e.target.name]: e.target.value });
+		setLocalState((current) => ({
+			...current,
+			[e.target.name]: e.target.value,
+		}));
 	};
 
 	const onButtonStepClicked = (nextStep) => {
-		setLocalState({ ...localState, step: nextStep });
+		setLocalState((current) => ({ ...current, step: nextStep }));
 	};
 
 	const onCreateProject = async () => {
 		let toCreate = Object.assign({}, localState);
 
 		// Remove unnecesary data
-		delete toCreate.steps;
-		delete toCreate.step;
-		delete toCreate.toolsOptions;
-		delete toCreate.newTool;
+		const keyToRemove = ["steps", "step", "toolsOptions", "newTool"];
+		toCreate = removeThis(toCreate, keyToRemove);
 
 		// Send file only
 		const imageKey = ["image", "modalImage", "organizationImage"];
-		await imageKey.forEach((data) => {
-			if (
-				typeof toCreate[data] === "undefined" ||
-				typeof toCreate[data] === "string"
-			)
-				return;
-			else {
-				toCreate = { ...toCreate, [data]: toCreate[data].file };
-			}
-		});
-		const result = await CreateProject(dispatch, toCreate);
+		toCreate = imageToUpload(toCreate, imageKey);
+
+		const result = await UpdateProject(dispatch, toCreate, id);
 
 		// Status check
 		if (result) {
 			onButtonStepClicked(localState.step + 1);
-			FetchAllProject(dispatch);
+			onUpdated();
 		}
 	};
 
-	const onCloseDialog = () => {
+	const onCloseDialog = async () => {
 		CloseDialogAction(dispatch);
 	};
 
@@ -155,16 +183,16 @@ const EditProjectDialogContent = () => {
 					</Button>
 				) : null}
 
-				{localState.step === 1 ? (
+				{localState.step === localState.steps.length - 1 ? (
 					<Button
 						key="button-upload"
 						color="primary"
 						onClick={() => onCreateProject()}
 					>
-						Upload
+						Update
 					</Button>
 				) : null}
-				{localState.step === 2 ? (
+				{localState.step === localState.steps.length ? (
 					<Button
 						key="button-upload"
 						color="primary"

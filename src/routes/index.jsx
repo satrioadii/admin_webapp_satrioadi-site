@@ -7,8 +7,6 @@ import {
 	Redirect,
 	Route,
 	Switch,
-	useHistory,
-	useLocation,
 } from "react-router-dom";
 import GlobalAppBar from "../components/global/appbar";
 import GlobalDrawer from "../components/global/drawer";

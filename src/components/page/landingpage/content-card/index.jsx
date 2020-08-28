@@ -11,7 +11,6 @@ import {
 import { SnackbarContextDispatch } from "../../../../Providers/Snackbar";
 import { LandingPageContextDispatch } from "../../../../Providers/Landingpage";
 import ProjectDialogContent from "../project-dialog-content";
-import GlobalWidthMax from "../../../global/widthmax";
 import GlobalDeleteDialog from "../../../global/dialog/index.delete";
 import EditProjectDialogContent from "../edit-project-dialog-content";
 
@@ -61,7 +60,10 @@ const HomeContentCard = ({ Title, Subtitle, ProjectImage, Id }) => {
 	const onEditHandler = async () => {
 		await FetchDetailProject(dispatch, Id);
 		OpenDialogAction(dispatch, `Edit ${Title}`, () => (
-			<EditProjectDialogContent />
+			<EditProjectDialogContent
+				id={Id}
+				onUpdated={() => FetchAllProject(dispatch)}
+			/>
 		));
 	};
 
@@ -81,16 +83,29 @@ const HomeContentCard = ({ Title, Subtitle, ProjectImage, Id }) => {
 						position: "relative",
 					}}
 				></div>
-				<Box position="absolute" top="0px" right="0px">
-					<Button
-						size="small"
-						variant="contained"
-						color="secondary"
-						disableElevation
-						onClick={() => onDeleteCaller()}
-					>
-						Delete
-					</Button>
+				<Box position="absolute" top="0px" right="0px" display="flex">
+					<Box marginRight="8px">
+						<Button
+							size="small"
+							variant="contained"
+							color="primary"
+							disableElevation
+							onClick={() => onEditHandler()}
+						>
+							Edit
+						</Button>
+					</Box>
+					<Box>
+						<Button
+							size="small"
+							variant="contained"
+							color="secondary"
+							disableElevation
+							onClick={() => onDeleteCaller()}
+						>
+							Delete
+						</Button>
+					</Box>
 				</Box>
 			</div>
 			<Box paddingX="4px">

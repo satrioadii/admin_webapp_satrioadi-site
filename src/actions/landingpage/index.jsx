@@ -1,20 +1,19 @@
 import axios from "axios";
 import {
-	FETCH_LANDING_DATA_REQUEST,
-	FETCH_LANDING_DATA_SUCCESS,
-	FETCH_LANDING_DATA_ERROR,
+	CHANGE_LANDING_DATA_ERROR,
+	CHANGE_LANDING_DATA_REQUEST,
+	CHANGE_LANDING_DATA_SUCCESS,
+	FETCH_LANDING_DATA_DETAIL_ERROR,
 	FETCH_LANDING_DATA_DETAIL_REQUEST,
 	FETCH_LANDING_DATA_DETAIL_SUCCESS,
-	FETCH_LANDING_DATA_DETAIL_ERROR,
+	FETCH_LANDING_DATA_ERROR,
+	FETCH_LANDING_DATA_REQUEST,
+	FETCH_LANDING_DATA_SUCCESS,
+	FETCH_LANDING_TOOLS_DATA_ERROR,
 	FETCH_LANDING_TOOLS_DATA_REQUEST,
 	FETCH_LANDING_TOOLS_DATA_SUCCESS,
-	FETCH_LANDING_TOOLS_DATA_ERROR,
-	CHANGE_LANDING_DATA_REQUEST,
-	CHANGE_LANDING_DATA_ERROR,
-	CHANGE_LANDING_DATA_SUCCESS,
 } from "../../Providers/Landingpage/index.type";
 import { OPEN_SNACKBAR } from "../../Providers/Snackbar/index.type";
-import { CloseDialogAction } from "../dialog";
 import { objToString } from "../../utils/objectHandler";
 
 const TOKEN = `Bearer ${localStorage.getItem("satrio_admin_token")}`;
@@ -85,7 +84,7 @@ export const CreateProject = async (dispatch, data) => {
 	dispatch.landingPage({ type: CHANGE_LANDING_DATA_REQUEST });
 
 	try {
-		const response = await axios.post(`${BASE_URL_PROJECT}/`, formData, {
+		await axios.post(`${BASE_URL_PROJECT}/`, formData, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 				Authorization: TOKEN,
@@ -112,9 +111,46 @@ export const CreateProject = async (dispatch, data) => {
 	}
 };
 
+export const UpdateProject = async (dispatch, data, id) => {
+	// Convert object content to string
+	const newObj = objToString(data, ["links", "tools"]);
+
+	let formData = new FormData();
+	Object.entries(newObj).forEach(([key, val]) => formData.append(key, val));
+
+	dispatch.landingPage({ type: CHANGE_LANDING_DATA_REQUEST });
+
+	try {
+		await axios.put(`${BASE_URL_PROJECT}/${id}`, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+				Authorization: TOKEN,
+			},
+		});
+
+		dispatch.landingPage({ type: CHANGE_LANDING_DATA_SUCCESS });
+		dispatch.snackbar({
+			type: OPEN_SNACKBAR,
+			message: "Project updated!",
+			snacktype: "success",
+		});
+
+		return true;
+	} catch (error) {
+		console.log(error.response);
+		dispatch.landingPage({ type: CHANGE_LANDING_DATA_ERROR });
+		dispatch.snackbar({
+			type: OPEN_SNACKBAR,
+			message: "Update project failed",
+			snacktype: "error",
+		});
+		return false;
+	}
+};
+
 export const DeleteProject = async (dispatch, id) => {
 	try {
-		const response = await axios({
+		await axios({
 			method: "delete",
 			url: `${BASE_URL_PROJECT}/${id}`,
 			headers: {
@@ -171,7 +207,7 @@ export const FetchAllTool = async (dispatch) => {
 
 export const CreateTool = async (dispatch, data) => {
 	try {
-		const response = await axios({
+		await axios({
 			method: "post",
 			url: `${BASE_URL_TOOL}/`,
 			headers: {

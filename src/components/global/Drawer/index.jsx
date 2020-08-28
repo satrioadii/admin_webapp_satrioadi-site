@@ -6,13 +6,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
 import { ExitToApp } from "@material-ui/icons";
-import MailIcon from "@material-ui/icons/Mail";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import clsx from "clsx";
 import React, { Fragment, useContext } from "react";
+import { LogoutAction } from "../../../actions/auth";
 import { AppbarContextState } from "../../../Providers/Appbar";
 import { AuthContextDispatch } from "../../../Providers/Auth";
-import { LogoutAction } from "../../../actions/auth";
+import drawerContent from "./index.content";
 
 const drawerWidth = 200;
 
@@ -78,14 +77,15 @@ const GlobalDrawer = () => {
 				<Divider />
 				<List>
 					<div className={classes.toolbar} />
-					{["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-						<ListItem button key={text}>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
+					{/* LIST DRAWER */}
+					{drawerContent.map((data, index) => (
+						<ListItem button key={`drawerList${index}`}>
+							<ListItemIcon>{data.Icon}</ListItemIcon>
+							<ListItemText primary={data.label} />
 						</ListItem>
 					))}
+
+					{/* LIST DRAWER END */}
 				</List>
 				<Divider />
 				<List>

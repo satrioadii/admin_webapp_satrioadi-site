@@ -63,12 +63,13 @@ const AddProjectDialogContent = () => {
 	}, []);
 
 	useEffect(() => {
-		setLocalState({ ...localState, toolsOptions: state.landingPage.tools });
+		setLocalState((current) => ({
+			...current,
+			toolsOptions: state.landingPage.tools,
+		}));
 	}, [state.landingPage.tools]);
 
-	const onGetAllTools = () => {
-		FetchAllTool(dispatch);
-	};
+	const onGetAllTools = () => FetchAllTool(dispatch);
 
 	const onFormStateChange = (e) => {
 		setLocalState({ ...localState, [e.target.name]: e.target.value });

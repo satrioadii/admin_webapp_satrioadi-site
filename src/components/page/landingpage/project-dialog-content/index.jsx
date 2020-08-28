@@ -48,7 +48,7 @@ const ProjectDialogContent = () => {
 				{/* Description */}
 				<Box marginBottom="16px">
 					<Typography component="p">
-						{isLoading ? null : dataDetail.description}
+						{isLoading ? null : dataDetail.descriptionDetail}
 					</Typography>
 				</Box>
 				<Grid container spacing={3}>
