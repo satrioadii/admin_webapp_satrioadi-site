@@ -26,6 +26,7 @@ const FirstStepScreen = ({ localState, onChange, stepScreen, step }) => {
 						placeholder="Enter the title"
 						value={localState.title}
 						onChange={(e) => onChange(e)}
+						disabled
 					/>
 					<GlobalTextMultilineForm
 						required

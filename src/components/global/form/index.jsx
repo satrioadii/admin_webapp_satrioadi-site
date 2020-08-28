@@ -16,6 +16,7 @@ export const GlobalTextForm = ({
 	onChange,
 	value,
 	required,
+	disabled,
 }) => {
 	return (
 		<Box marginBottom={{ xs: "16px", md: "20px" }}>
@@ -26,6 +27,7 @@ export const GlobalTextForm = ({
 			>
 				<InputLabel>{label}</InputLabel>
 				<OutlinedInput
+					disabled={disable}
 					required={required ? true : false}
 					name={name}
 					label={label}
@@ -44,10 +46,12 @@ export const GlobalTextMultilineForm = ({
 	onChange,
 	value,
 	required,
+	disabled,
 }) => {
 	return (
 		<Box marginBottom={{ xs: "16px", md: "20px" }}>
 			<TextField
+				disable={disabled}
 				required={required ? true : false}
 				variant="outlined"
 				multiline
@@ -70,6 +74,7 @@ export const GlobalImageForm = ({
 	required,
 	width,
 	paddingTop,
+	disabled,
 }) => {
 	const ImageChangeHandler = (e) => {
 		onChange(e);
@@ -94,6 +99,7 @@ export const GlobalImageForm = ({
 			</Box>
 			<InputLabel>{label}</InputLabel>
 			<InputBase
+				disabled={disabled}
 				type="file"
 				name={name}
 				required={required ? true : false}
