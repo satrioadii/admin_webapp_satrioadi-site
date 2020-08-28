@@ -4,7 +4,7 @@ import AuthReducer from "./index.reducer";
 const INITIAL_STATE = {
 	isLoading: false,
 	errMessage: null,
-	token: null,
+	token: JSON.parse(localStorage.getItem("satrio_admin_token")) || null,
 };
 
 export const AuthContextState = createContext();
