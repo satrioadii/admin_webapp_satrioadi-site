@@ -1,6 +1,7 @@
 {
 	"short_name": "Satrio Admin Page",
-	"name": "Admin Page For My Personal Page",
+	"name": "Admin PWA For My Personal Page",
+	"description": "Manage My Personal Site",
 	"icons": [
 		{
 			"src": "favicon.ico",
