@@ -26,6 +26,7 @@ const AuthReducer = (state, action) => {
 		case LOGIN_ERROR:
 		case CHECK_AUTH_ERROR:
 		case LOGOUT_REQUEST:
+			localStorage.removeItem("satrio_admin_token");
 			return { ...state, isLoading: false, token: null };
 		default:
 			return state;
