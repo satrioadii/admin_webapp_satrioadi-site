@@ -22,7 +22,7 @@ const AuthReducer = (state, action) => {
 		case CHECK_AUTH_REQUEST:
 			return { ...state, isLoading: true };
 		case CHECK_AUTH_SUCCESS:
-			return { ...state, isLoading: false, user: action.payload.role };
+			return { ...state, isLoading: false };
 		case LOGIN_ERROR:
 		case CHECK_AUTH_ERROR:
 		case LOGOUT_REQUEST:

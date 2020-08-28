@@ -60,7 +60,7 @@ export const CheckAuthAction = async (dispatch) => {
 				Authorization: TOKEN,
 			},
 		});
-		dispatch.auth({ type: CHECK_AUTH_SUCCESS, payload: response.data.data });
+		dispatch.auth({ type: CHECK_AUTH_SUCCESS });
 	} catch (error) {
 		console.log("error", error.response.data);
 		dispatch.auth({ type: CHECK_AUTH_ERROR });
