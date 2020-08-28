@@ -8,7 +8,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { ExitToApp } from "@material-ui/icons";
 import clsx from "clsx";
 import React, { Fragment, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import { LogoutAction } from "../../../actions/auth";
 import { AppbarContextState } from "../../../Providers/Appbar";
 import { AuthContextDispatch } from "../../../Providers/Auth";
