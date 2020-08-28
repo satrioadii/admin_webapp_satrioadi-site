@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { ExitToApp } from "@material-ui/icons";
 import clsx from "clsx";
 import React, { Fragment, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { LogoutAction } from "../../../actions/auth";
 import { AppbarContextState } from "../../../Providers/Appbar";
 import { AuthContextDispatch } from "../../../Providers/Auth";
@@ -80,8 +81,20 @@ const GlobalDrawer = () => {
 					{/* LIST DRAWER */}
 					{drawerContent.map((data, index) => (
 						<ListItem button key={`drawerList${index}`}>
-							<ListItemIcon>{data.Icon}</ListItemIcon>
-							<ListItemText primary={data.label} />
+							<ListItemIcon>
+								<data.Icon
+									color={
+										window.location.pathname === data.link ? "primary" : ""
+									}
+								/>
+							</ListItemIcon>
+							<ListItemText
+								primary={data.label}
+								style={{
+									color:
+										window.location.pathname === data.link ? "#2188ff" : null,
+								}}
+							/>
 						</ListItem>
 					))}
 

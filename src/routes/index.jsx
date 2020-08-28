@@ -76,6 +76,7 @@ const IndexRoutes = () => {
 	// Check auth every time the page change
 	useEffect(() => {
 		CheckAuthAction(dispatch);
+		dispatch.appbar({ type: CLOSE_APPBAR });
 	}, [window.location.pathname]);
 
 	// If token is not exist, force to login route
