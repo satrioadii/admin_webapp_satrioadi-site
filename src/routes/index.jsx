@@ -75,7 +75,9 @@ const IndexRoutes = () => {
 
 	// Check auth every time the page change
 	useEffect(() => {
-		CheckAuthAction(dispatch);
+		if (state.auth.token) {
+			CheckAuthAction(dispatch);
+		}
 		dispatch.appbar({ type: CLOSE_APPBAR });
 	}, [window.location.pathname]);
 
