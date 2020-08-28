@@ -27,7 +27,7 @@ export const GlobalTextForm = ({
 			>
 				<InputLabel>{label}</InputLabel>
 				<OutlinedInput
-					disabled={disable}
+					disabled={disabled}
 					required={required ? true : false}
 					name={name}
 					label={label}
@@ -51,7 +51,7 @@ export const GlobalTextMultilineForm = ({
 	return (
 		<Box marginBottom={{ xs: "16px", md: "20px" }}>
 			<TextField
-				disable={disabled}
+				disabled={disabled}
 				required={required ? true : false}
 				variant="outlined"
 				multiline
