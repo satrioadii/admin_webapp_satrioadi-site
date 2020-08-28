@@ -16,7 +16,7 @@ import {
 import { OPEN_SNACKBAR } from "../../Providers/Snackbar/index.type";
 import { objToString } from "../../utils/objectHandler";
 
-const TOKEN = `Bearer ${localStorage.getItem("satrio_admin_token")}`;
+const TOKEN = `${localStorage.getItem("satrio_admin_token")}`;
 const BASE_URL_PROJECT = `${process.env.REACT_APP_HOST_API}/${process.env.REACT_APP_VERSION_1_API}/project`;
 export const FetchAllProject = async (dispatch) => {
 	dispatch.landingPage({ type: FETCH_LANDING_DATA_REQUEST });
