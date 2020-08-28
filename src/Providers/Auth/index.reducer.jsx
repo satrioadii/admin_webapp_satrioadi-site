@@ -11,20 +11,18 @@ import {
 const AuthReducer = (state, action) => {
 	switch (action.type) {
 		case LOGIN_REQUEST:
-			return { ...state, isLoading: true };
-		case LOGIN_SUCCESS:
-			localStorage.setItem("satrio_admin_token", action.payload.token);
-			return {
-				...state,
-				isLoading: false,
-				token: `Bearer ${action.payload.token}`,
-			};
 		case CHECK_AUTH_REQUEST:
 			return { ...state, isLoading: true };
 		case CHECK_AUTH_SUCCESS:
-			return { ...state, isLoading: false };
-		case LOGIN_ERROR:
+		case LOGIN_SUCCESS:
+			localStorage.setItem("satrio_admin_token", `${action.payload}`);
+			return {
+				...state,
+				isLoading: false,
+				token: `${action.payload}`,
+			};
 		case CHECK_AUTH_ERROR:
+		case LOGIN_ERROR:
 		case LOGOUT_REQUEST:
 			localStorage.removeItem("satrio_admin_token");
 			return { ...state, isLoading: false, token: null };

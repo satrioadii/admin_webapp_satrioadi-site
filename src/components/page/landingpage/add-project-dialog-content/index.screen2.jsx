@@ -93,6 +93,7 @@ const SecondStepScreen = ({
 							name="newToolData"
 							label="Add new tool"
 							variant="outlined"
+							value={[]}
 							onChange={(e) => newToolHandler(e)}
 						/>
 					) : null}

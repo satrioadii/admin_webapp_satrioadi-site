@@ -24,9 +24,11 @@ export const LoginAction = async (dispatch, body) => {
 			},
 			data: body,
 		});
+		localStorage.setItem("satrio_admin_token", `Bearer ${response.data.token}`);
+
 		dispatch.auth({
 			type: LOGIN_SUCCESS,
-			payload: { token: response.data.token },
+			payload: `Bearer ${response.data.token}`,
 		});
 		dispatch.snackbar({
 			type: OPEN_SNACKBAR,
@@ -48,7 +50,7 @@ export const LogoutAction = async (dispatch) => {
 	dispatch.auth({ type: LOGOUT_REQUEST });
 };
 
-export const CheckAuthAction = async (dispatch) => {
+export const CheckAuthAction = async (dispatch, token) => {
 	dispatch.auth({ type: CHECK_AUTH_REQUEST });
 
 	try {
@@ -57,10 +59,10 @@ export const CheckAuthAction = async (dispatch) => {
 			url: `${BASE_URL}/me`,
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: TOKEN,
+				Authorization: token,
 			},
 		});
-		dispatch.auth({ type: CHECK_AUTH_SUCCESS });
+		dispatch.auth({ type: CHECK_AUTH_SUCCESS, payload: token });
 	} catch (error) {
 		console.log("error", error.response.data);
 		dispatch.auth({ type: CHECK_AUTH_ERROR });
