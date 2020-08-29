@@ -67,7 +67,7 @@ const EditProjectDialogContent = ({ id, onUpdated }) => {
 		const data = onConvertDataToLocalState();
 		const dataDetail = onConvertDataDetailToLocalState();
 		setLocalState((current) => ({ ...current, ...data, ...dataDetail }));
-	}, [state.landingPage.dataDetail]);
+	}, []);
 
 	const onGetAllTools = async () => {
 		await FetchAllTool(dispatch);
@@ -106,10 +106,10 @@ const EditProjectDialogContent = ({ id, onUpdated }) => {
 	};
 
 	const onFormStateChange = (e) => {
-		setLocalState((current) => ({
-			...current,
+		setLocalState({
+			...localState,
 			[e.target.name]: e.target.value,
-		}));
+		});
 	};
 
 	const onButtonStepClicked = (nextStep) => {

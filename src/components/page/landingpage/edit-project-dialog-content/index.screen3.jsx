@@ -7,7 +7,7 @@ const ThirdStepScreen = ({ stepScreen, step }) => {
 			{stepScreen === step ? (
 				<Fragment>
 					<Box marginY={{ xs: "16px", md: "24px" }} justifyContent="center">
-						<Typography variant="h5" justifyContent="center" align="center">
+						<Typography variant="h5" align="center">
 							Project Updated!
 						</Typography>
 					</Box>

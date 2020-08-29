@@ -1,10 +1,12 @@
 import React, { createContext, useReducer } from "react";
 import AuthReducer from "./index.reducer";
+import { GetCookie } from "../../utils/cookiesHandler";
 
 const INITIAL_STATE = {
 	isLoading: false,
 	errMessage: null,
-	token: localStorage.getItem("satrio_admin_token") || null,
+	token: GetCookie("satrio_admin_token") || null,
+	role: null,
 };
 
 export const AuthContextState = createContext();

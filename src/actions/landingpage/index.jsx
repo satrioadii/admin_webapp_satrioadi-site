@@ -15,8 +15,8 @@ import {
 } from "../../Providers/Landingpage/index.type";
 import { OPEN_SNACKBAR } from "../../Providers/Snackbar/index.type";
 import { objToString } from "../../utils/objectHandler";
+import { GetCookie } from "../../utils/cookiesHandler";
 
-const TOKEN = `${localStorage.getItem("satrio_admin_token")}`;
 const BASE_URL_PROJECT = `${process.env.REACT_APP_HOST_API}/${process.env.REACT_APP_VERSION_1_API}/project`;
 export const FetchAllProject = async (dispatch) => {
 	dispatch.landingPage({ type: FETCH_LANDING_DATA_REQUEST });
@@ -27,7 +27,6 @@ export const FetchAllProject = async (dispatch) => {
 			url: `${BASE_URL_PROJECT}?sort=-createdAt`,
 			headers: {
 				"Content-Type": "application/json",
-				authorization: TOKEN,
 			},
 		});
 		dispatch.landingPage({
@@ -56,7 +55,6 @@ export const FetchDetailProject = async (dispatch, id) => {
 			url: `${BASE_URL_PROJECT}/${id}`,
 			headers: {
 				"Content-Type": "application/json",
-				authorization: TOKEN,
 			},
 		});
 		dispatch.landingPage({
@@ -75,6 +73,8 @@ export const FetchDetailProject = async (dispatch, id) => {
 };
 
 export const CreateProject = async (dispatch, data) => {
+	const TOKEN = GetCookie("satrio_admin_token");
+
 	// Convert object content to string
 	const newObj = objToString(data, ["links", "tools"]);
 
@@ -112,6 +112,8 @@ export const CreateProject = async (dispatch, data) => {
 };
 
 export const UpdateProject = async (dispatch, data, id) => {
+	const TOKEN = GetCookie("satrio_admin_token");
+
 	// Convert object content to string
 	const newObj = objToString(data, ["links", "tools"]);
 
@@ -149,6 +151,8 @@ export const UpdateProject = async (dispatch, data, id) => {
 };
 
 export const DeleteProject = async (dispatch, id) => {
+	const TOKEN = GetCookie("satrio_admin_token");
+
 	try {
 		await axios({
 			method: "delete",
@@ -188,7 +192,6 @@ export const FetchAllTool = async (dispatch) => {
 			url: `${BASE_URL_TOOL}?sort=-createdAt&limit=100`,
 			headers: {
 				"Content-Type": "application/json",
-				authorization: TOKEN,
 			},
 		});
 		dispatch.landingPage({
@@ -206,6 +209,8 @@ export const FetchAllTool = async (dispatch) => {
 };
 
 export const CreateTool = async (dispatch, data) => {
+	const TOKEN = GetCookie("satrio_admin_token");
+
 	try {
 		await axios({
 			method: "post",

@@ -7,6 +7,7 @@ import {
 	CHECK_AUTH_ERROR,
 	LOGOUT_REQUEST,
 } from "./index.type";
+import { RemoveCookie } from "../../utils/cookiesHandler";
 
 const AuthReducer = (state, action) => {
 	switch (action.type) {
@@ -14,17 +15,22 @@ const AuthReducer = (state, action) => {
 		case CHECK_AUTH_REQUEST:
 			return { ...state, isLoading: true };
 		case CHECK_AUTH_SUCCESS:
-		case LOGIN_SUCCESS:
-			localStorage.setItem("satrio_admin_token", `${action.payload}`);
 			return {
 				...state,
 				isLoading: false,
-				token: `${action.payload}`,
+				token: action.payload,
+			};
+		case LOGIN_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				token: action.payload,
+				role: action.role,
 			};
 		case CHECK_AUTH_ERROR:
 		case LOGIN_ERROR:
 		case LOGOUT_REQUEST:
-			localStorage.removeItem("satrio_admin_token");
+			RemoveCookie("satrio_admin_token");
 			return { ...state, isLoading: false, token: null };
 		default:
 			return state;

@@ -74,12 +74,15 @@ const IndexRoutes = () => {
 	const { isOpen } = state.appbar;
 
 	// Check auth every time the page change
-	useEffect(() => {
+	useEffect(async () => {
 		if (state.auth.token) {
-			CheckAuthAction(dispatch, state.auth.token);
+			const result = await CheckAuthAction(dispatch, state.auth.token);
+			if (result) {
+				console.log("Granted");
+			}
 		}
 		dispatch.appbar({ type: CLOSE_APPBAR });
-	}, [window.location.pathname]);
+	}, [CheckAuthAction]);
 
 	// If token is not exist, force to login route
 	if (!state.auth.token) {

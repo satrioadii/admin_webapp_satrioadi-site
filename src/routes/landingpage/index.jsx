@@ -1,8 +1,8 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import GlobalDialog from "../../components/global/dialog";
 import LandingPage from "../../pages/landingpage";
 import LandingPageContextProvider from "../../Providers/Landingpage";
-import GlobalDialog from "../../components/global/dialog";
 
 const LandingPageRoutes = ({ children, ...rest }) => {
 	return (

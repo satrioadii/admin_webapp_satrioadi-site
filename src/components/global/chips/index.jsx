@@ -29,7 +29,7 @@ export const CustomChip = ({
 					color={color ? color : undefined}
 					variant={variant ? variant : "default"}
 					onClick={() => window.open(link)}
-					onDelete={onDelete ? () => onDelete(label) : false}
+					onDelete={onDelete ? () => onDelete(label) : undefined}
 				/>
 			) : (
 				<Chip
@@ -37,7 +37,7 @@ export const CustomChip = ({
 					size={size ? size : "medium"}
 					color={color ? color : undefined}
 					variant={variant ? variant : "default"}
-					onDelete={onDelete ? onDelete : false}
+					onDelete={onDelete ? onDelete : undefined}
 				/>
 			)}
 		</Grid>
