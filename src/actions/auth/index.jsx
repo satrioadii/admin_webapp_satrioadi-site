@@ -9,7 +9,8 @@ import {
 	CHECK_AUTH_SUCCESS,
 } from "../../Providers/Auth/index.type";
 import { OPEN_SNACKBAR } from "../../Providers/Snackbar/index.type";
-import { SetCookie, GetCookie } from "../../utils/cookiesHandler";
+// import { SetStorage } from "../../utils/cookiesHandler";
+import { SetStorage } from "../../utils/storageHandler";
 
 const BASE_URL = `${process.env.REACT_APP_HOST_API}/${process.env.REACT_APP_VERSION_1_API}/auth`;
 
@@ -25,7 +26,7 @@ export const LoginAction = async (dispatch, body) => {
 			data: body,
 		});
 
-		SetCookie("satrio_admin_token", `Bearer ${response.data.token}`);
+		SetStorage("satrio_admin_token", `Bearer ${response.data.token}`);
 
 		await dispatch.auth({
 			type: LOGIN_SUCCESS,
@@ -63,8 +64,8 @@ export const CheckAuthAction = async (dispatch, token) => {
 				Authorization: token,
 			},
 		});
-		SetCookie("satrio_admin_token", token);
-		const newData = SetCookie("satrio_admin_role", response.data.data.role);
+		SetStorage("satrio_admin_token", token);
+		SetStorage("satrio_admin_role", response.data.data.role);
 
 		dispatch.auth({
 			type: CHECK_AUTH_SUCCESS,

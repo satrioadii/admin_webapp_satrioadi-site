@@ -2,7 +2,7 @@ export const SetupCookieCheck = () => {
 	// Check data and create if not exist
 	let currentCookies = document.cookie;
 	let emptyObject = JSON.stringify({ successCreated: true });
-	if (currentCookies.search("data=") === -1) {
+	if (currentCookies.search("dataFromWeb=") === -1) {
 		currentCookies = `${emptyObject}`;
 
 		// Set expires date 7 day
@@ -14,7 +14,7 @@ export const SetupCookieCheck = () => {
 		let path = "path=/";
 
 		// Setup new data - cookie
-		document.cookie = `data=${currentCookies};${expires};${path}`;
+		document.cookie = `dataFromWeb=${currentCookies};${expires};${path}`;
 	}
 };
 
@@ -36,7 +36,7 @@ export const SetCookie = (name, value) => {
 	const allCookie = document.cookie;
 
 	// Last data
-	let firstSeparator = allCookie.search("={");
+	let firstSeparator = allCookie.search("dataFromWeb={");
 	let lastSeparator = allCookie.length;
 	let lastData = allCookie.slice(firstSeparator + 1, lastSeparator);
 	lastData = JSON.parse(lastData);
@@ -46,7 +46,7 @@ export const SetCookie = (name, value) => {
 
 	// Insert new data
 	const stringData = JSON.stringify(newData);
-	document.cookie = `data=${stringData};${expires};${path}`;
+	document.cookie = `dataFromWeb=${stringData};${expires};${path}`;
 	return newData;
 };
 
@@ -56,9 +56,11 @@ export const GetCookie = (name) => {
 	const allCookie = document.cookie;
 
 	// Last data
-	let firstSeparator = allCookie.search("={");
+	let firstSeparator = allCookie.search("dataFromWeb={");
 	let lastSeparator = allCookie.length;
-	let lastData = allCookie.slice(firstSeparator + 1, lastSeparator);
+	let lastData = allCookie.slice(firstSeparator + 12, lastSeparator);
+
+	console.log(lastData);
 
 	// Export data
 	lastData = JSON.parse(lastData);
@@ -79,7 +81,7 @@ export const RemoveCookie = (name) => {
 	const allCookie = document.cookie;
 
 	// Last data
-	let firstSeparator = allCookie.search("={");
+	let firstSeparator = allCookie.search("dataFromWeb={");
 	let lastSeparator = allCookie.length;
 	let lastData = allCookie.slice(firstSeparator + 1, lastSeparator);
 	lastData = JSON.parse(lastData);
@@ -89,7 +91,7 @@ export const RemoveCookie = (name) => {
 
 	// Insert new data
 	const stringData = JSON.stringify(lastData);
-	document.cookie = `data=${stringData};${expires};${path}`;
+	document.cookie = `dataFromWeb=${stringData};${expires};${path}`;
 
 	return lastData[name];
 };
