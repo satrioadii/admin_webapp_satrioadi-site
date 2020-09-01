@@ -24,8 +24,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const styles = makeStyles((theme) => {
 	return {
 		customShadow: {
-			boxShadow: "0px 0px 30px 0px rgba(210,210,210,0.8)",
-			border: `2px solid ${theme.palette.owngray1.main}`,
+			boxShadow: "0px 0px 30px 0px rgba(240,240,240,0.8)",
 		},
 	};
 });
